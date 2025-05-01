@@ -1,13 +1,19 @@
 import React from "react";
+import { Routes, Route } from "react-router-dom";
+import Login from "./pages/Login";
+import Otp from "./pages/Otp";
 import Home from "./pages/Home";
-import Navbar from "./components/Navbar";
-
 function App() {
+  // This is the routing table for the application
+
   return (
-    <div>
-      <Navbar />
-      <Home />
-    </div>
+    <>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/otp" element={<Otp />} />
+      </Routes>
+    </>
   );
 }
 
