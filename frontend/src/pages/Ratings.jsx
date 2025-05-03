@@ -43,6 +43,9 @@ function Rating() {
                     This is a sample review. The bike quality is great and
                     performance is top-notch for everyday commuting and
                     adventure rides.
+                    <a href="" className="text-blue-600">
+                      Read more
+                    </a>m 
                   </div>
 
                   {/* Read more link */}
