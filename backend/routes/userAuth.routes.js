@@ -162,6 +162,25 @@ router.post("/google-login", async (req, res) => {
 
     const { email, name } = payload;
 
+    // checking if the user already exists in the database
+
+    const existingUser = await User.findOne({ email });
+
+    if (existingUser) {
+      const jwtToken = jwt.sign(
+        { id: existingUser._id, email: existingUser.email },
+        process.env.JWT_SECRET
+      );
+
+      return res.json({
+        message: "User verified",
+        token: jwtToken,
+      });
+    }
+
+    // If user doesn't exist, create a new user
+    // and send a verification email
+
     const user = await User.create({
       fullName: name,
       email: email,

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Ratings from "./Ratings";
 import Footer from "../components/Footer";
 import Copyright from "../components/Copyright";
@@ -7,10 +7,13 @@ import { useNavigate } from "react-router-dom";
 import Loading from "../components/Loading";
 import { toast, ToastContainer, Slide } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import axios from "axios";
 
 function Home() {
   const navigate = useNavigate();
   const [IsLoading, setIsLoading] = useState(false);
+  const [bikes, setbikes] = useState([]);
+  const [accessories, setaccessories] = useState([]);
 
   const checkIfLoggedIn = () => {
     setIsLoading(true);
@@ -33,6 +36,27 @@ function Home() {
       }, 800);
     }
   };
+
+  useEffect(() => {
+    const res = axios
+      .get("http://localhost:5000/api/v1/data/bikes")
+      .then((res) => {
+        // console.log(res.data);
+        setbikes(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    const res1 = axios
+      .get("http://localhost:5000/api/v1/data/accessories")
+      .then((res) => {
+        // console.log(res.data);
+        setaccessories(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
 
   return (
     <>
@@ -65,23 +89,43 @@ function Home() {
 
           {/* Cards Section */}
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 pt-4 p-6 bg-[#a8e0ba]">
-            {[...Array(8)].map((_, index) => (
+            {bikes.map((bike) => (
               <div
-                key={index}
+                key={bike._id}
                 className="rounded-2xl overflow-hidden shadow-[inset_0_10px_20px_rgba(0,0,0,0.2)] bg-white border-2 border-gray-300"
               >
                 <img
                   className="w-full h-36 object-cover rounded-t-2xl"
-                  src="https://t4.ftcdn.net/jpg/03/76/70/11/360_F_376701136_KNP9pERnyP5Z2acAIuhnQQ0HpqUuWQyh.jpg"
-                  alt="KTM Duke"
+                  src={bike.image}
+                  alt={bike.bikeModel}
                 />
                 <div className="p-4">
                   <h2 className="text-xl font-semibold mb-2 text-red-500">
-                    KTM Duke
+                    {bike.bikeModel}
                   </h2>
                   <div className="p-3 rounded-md h-32 w-full bg-[#dbf4e3] text-gray-600 text-sm overflow-y-auto shadow-[inset_0_10px_20px_rgba(0,0,0,0.2)]">
-                    Powerful street bike with aggressive styling and top-tier
-                    performance.
+                    <p>
+                      <strong>Rate Per Day:</strong> ${bike.ratePerDay}
+                    </p>
+                    <p>
+                      <strong>Rating:</strong> {bike.rating} / 5
+                    </p>
+                    <p>
+                      <strong>Milage:</strong> {bike.milage}
+                    </p>
+                    <p>
+                      <strong>Option 1:</strong> {bike.optionOne || "N/A"}
+                    </p>
+                    <p>
+                      <strong>Option 2:</strong> {bike.optionTwo || "N/A"}
+                    </p>
+                    <p>
+                      <strong>Option 3:</strong> {bike.optionThree || "N/A"}
+                    </p>
+                    <p>
+                      <strong>Availability:</strong>{" "}
+                      {bike.availability ? "Available" : "Not Available"}
+                    </p>
                   </div>
                   <div className="mt-4 flex justify-center">
                     <button
@@ -95,8 +139,6 @@ function Home() {
               </div>
             ))}
           </div>
-
-          {/* Packages Section */}
           <div className="h-auto min-h-[40rem] bg-[#a8e0ba] flex items-center justify-center py-10">
             <div className="flex flex-col md:flex-row items-center md:items-start gap-8 w-[90%] max-w-6xl">
               <div className="flex items-center justify-center h-auto md:h-[30rem] w-full md:w-1/2">

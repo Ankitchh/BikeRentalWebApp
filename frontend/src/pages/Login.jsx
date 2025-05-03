@@ -31,7 +31,10 @@ function Login() {
       localStorage.setItem("userId", userId);
       localStorage.setItem("email", email);
 
-      toast.success(res.data.data.message);
+      toast.success("otp sent to your email");
+      setTimeout(() => {
+        toast.success("Please check your email");
+      }, 1000);
 
       setEmail("");
       setFullName("");
@@ -157,8 +160,8 @@ function Login() {
         </div>
       )}
       <ToastContainer
-        theme="light"
-        autoClose={1000}
+        theme="dark"
+        autoClose={2000}
         closeOnClick={true}
         transition={Slide}
       />
