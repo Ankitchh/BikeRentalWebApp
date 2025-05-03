@@ -1,17 +1,27 @@
-const mongoose = require('mongoose')
+import mongoose from "mongoose";
 
-const statSchema = new mongoose.Schema(
-  {
-    _id: { type: String, default: "dashboard-stats" },
-    totalUsers: Number,
-    totalBookings: Number,
-    pendingBookings: Number,
-    approvedBookings: Number,
-    totalRevenue: Number,
-    availableBikes: Number,
-    updatedAt: Date,
+const statsSchema = new mongoose.Schema({
+  totalUsers: {
+    type: Number,
+    default: 0,
   },
-  { _id: false }
-);
+  totalBikes: {
+    type: Number,
+    default: 0,
+  },
+  totalAccessories: {
+    type: Number,
+    default: 0,
+  },
+  totalPackages: {
+    type: Number,
+    default: 0,
+  },
+  totalBookings: {
+    type: Number,
+    default: 0,
+  },
+});
 
-module.exports = mongoose.model("Stat", statSchema);
+const Stats = mongoose.model("Stats", statsSchema);
+export default Stats;

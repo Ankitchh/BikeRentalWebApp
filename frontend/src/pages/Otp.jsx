@@ -9,6 +9,7 @@ function Otp() {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const userId = localStorage.getItem("userId");
+  const email = localStorage.getItem("email");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -40,7 +41,7 @@ function Otp() {
 
         setTimeout(() => {
           setIsLoading(false);
-          navigate("/home");
+          navigate("/");
         }, 1000);
       } else {
         throw new Error("Unexpected response");
@@ -49,7 +50,7 @@ function Otp() {
       console.error("Error verifying OTP:", error);
       const message = error.response?.data?.message || "Can't verify OTP";
       toast.error(message);
-      setIsLoading(false);
+      setIsLoading(false);  
     }
   };
 
@@ -58,7 +59,7 @@ function Otp() {
     try {
       const res = await axios.post(
         `${import.meta.env.VITE_BASE_URL}/user/resend-otp`,
-        { userId }, // ensure the backend requires it if needed
+        { email },
         {
           headers: {
             "Content-Type": "application/json",

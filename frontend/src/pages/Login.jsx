@@ -10,12 +10,12 @@ function Login() {
   const [IsLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
-  const data = { name: FullName, emai: Email };
+  const data = { name: FullName, email: Email };
 
   // sending data the backend
 
   const handleSubmit = async (e) => {
-    e.preventDefaut();
+    e.preventDefault();
 
     setIsLoading(true);
 
@@ -36,7 +36,7 @@ function Login() {
       setEmail("");
       setFullName("");
       setTimeout(() => setIsLoading(false), 800);
-      setTimeout(() => navigate("/"), 800);
+      setTimeout(() => navigate("/otp"), 800);
     } catch (error) {
       console.error("Error handelSubmit", error);
       toast.error("Error Logging !");
@@ -61,7 +61,7 @@ function Login() {
         const token = data.token;
         localStorage.setItem("token", token);
         console.log("Server Response: ", data);
-        navigate("/home");
+        navigate("/");
       });
   };
 
@@ -110,7 +110,7 @@ function Login() {
                 <hr className="mb-2 mt-1.5 w-3/4 ml-10" />
                 <input
                   className="outline-none border w-[90%] px-3 py-2 mt-3 rounded "
-                  type="email"
+                  type="text"
                   placeholder="Enter Your FullName"
                   value={FullName}
                   onChange={(e) => {
