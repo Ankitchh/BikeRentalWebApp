@@ -1,32 +1,21 @@
 import React from "react";
-import { Route, Routes } from "react-router-dom";
-import AdminLogin from "./components/admin/AdminLogin";
-import Admin from "./pages/Admin";
+import { Routes, Route } from "react-router-dom";
+import Login from "./pages/Login";
+import Otp from "./pages/Otp";
 import Home from "./pages/Home";
-import Navbar from "./components/Navbar";
-
+import Booking from "./pages/Booking";
 function App() {
-  return (
-    <div>
-      {/* Navbar shows on all routes except admin */}
-      <Routes>
-        <Route
-          path="/*"
-          element={
-            <>
-              <Navbar />
-              <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/adminlogin" element={<AdminLogin />} />
-              </Routes>
-            </>
-          }
-        />
+  // This is the routing table for the application
 
-        {/* Admin routes have their own layout */}
-        <Route path="/admin/*" element={<Admin />} />
+  return (
+    <>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/otp" element={<Otp />} />
+        <Route path="/booking" element={<Booking />} />
       </Routes>
-    </div>
+    </>
   );
 }
 
