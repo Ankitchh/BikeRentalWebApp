@@ -25,6 +25,18 @@ const bikeSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  optionOne: {
+    type: String,
+    default: null,
+  },
+  optionTwo: {
+    type: String,
+    default: null,
+  },
+  optionThree: {
+    type: String,
+    default: null,
+  },
   availability: {
     type: Boolean,
     default: true,
