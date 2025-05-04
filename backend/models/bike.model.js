@@ -41,6 +41,10 @@ const bikeSchema = new mongoose.Schema({
     type: Boolean,
     default: true,
   },
+  bikeCount: {
+    type: Number,
+    default: null,
+  }
 });
 
 const Bike = mongoose.model("Bike", bikeSchema);
