@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken";
 import Admin from "../models/admin.model.js";
 
-const authenticateAdmin = (req, res, next) => {
+const authenticateAdmin = async (req, res, next) => {
   const authHeader = req.headers.authorization;
 
   if (!authHeader || !authHeader.startsWith("Bearer ")) {
@@ -13,14 +13,16 @@ const authenticateAdmin = (req, res, next) => {
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-    const admin = Admin.findById(decoded.id);
+    const admin = await Admin.findById(decoded.id);
     if (!admin) {
       return res.status(401).json({ message: "Unauthorized" });
     }
-    if (admin.role !== "admin") {
+    if (admin.role != "admin") {
       return res.status(403).json({ message: "Forbidden" });
     }
-
+    if (!admin.loggedIn) {
+      return res.status(403).json({ message: "Admin not logged in" });
+    }
     req.data = { admin: decoded }; // attaching admin to req.data
 
     next();

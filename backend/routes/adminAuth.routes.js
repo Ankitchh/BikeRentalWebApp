@@ -4,6 +4,7 @@ import jwt from "jsonwebtoken";
 import Admin from "../models/admin.model.js";
 import Sessions from "../models/sessions.models.js";
 import adminAuthMiddleware from "../middleware/adminAuth.middleware.js";
+import bikes from "../models/bike.model.js";
 
 // THIS IS ADMIN AUTHENTICATION ROUTE
 
@@ -118,6 +119,61 @@ router.post("/login", async (req, res) => {
   }
 });
 
+//Adding bike
+
+router.post("/addBike", adminAuthMiddleware, async (req, res) => {
+  const {
+    image,
+    bikeModel,
+    ratePerDay,
+    rating,
+    milage,
+    optionOne,
+    optionTwo,
+    optionThree,
+    bikeCount,
+  } = req.body;
+
+  try {
+    // Fix: await bikes.findOne({ bikeModel }) instead of bikes.find()
+    const existingBike = await bikes.findOne({ bikeModel });
+
+    if (!existingBike) {
+      const newBike = await bikes.create({
+        image,
+        bikeModel,
+        ratePerDay,
+        rating,
+        milage,
+        optionOne,
+        optionTwo,
+        optionThree,
+        bikeCount,
+      });
+
+      return res.status(201).json({
+        message: "Bike added successfully",
+        bike: newBike,
+      });
+    } else {
+      // Fix: Proper update syntax
+      const updatedBike = await bikes.findOneAndUpdate(
+        { bikeModel },
+        { $inc: { bikeCount } }, // Increment bikeCount
+        { new: true }
+      );
+
+      return res.status(200).json({
+        message: "Bike count updated",
+        bike: updatedBike,
+      });
+    }
+  } catch (error) {
+    console.error("Error in /addBike:", error);
+    return res.status(500).json({ message: "Internal server error" });
+  }
+});
+
 // Logout an Admin
 
 router.post("/logout", adminAuthMiddleware, async (req, res) => {
@@ -162,5 +218,6 @@ router.post("/logout", adminAuthMiddleware, async (req, res) => {
     res.status(500).json({ message: "Internal server error" });
   }
 });
+
 
 export default router;
