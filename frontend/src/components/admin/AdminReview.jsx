@@ -1,11 +1,9 @@
-import React from 'react'
+import React from "react";
+import { getAuthToken } from "./utils/Authtoken";
 
 const AdminReview = () => {
-  return (
-    <div>
-      
-    </div>
-  )
-}
+  getAuthToken();
+  return <div></div>;
+};
 
-export default AdminReview
+export default AdminReview;

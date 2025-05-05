@@ -1,7 +1,9 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React from "react";
+import { Link } from "react-router-dom";
+import { getAuthToken } from "./utils/Authtoken";
 
 const AdminNav = () => {
+  getAuthToken();
   return (
     <aside
       id="sidebar-multi-level-sidebar"
@@ -62,14 +64,10 @@ const AdminNav = () => {
                   d="m1 1 4 4 4-4"
                 />
               </svg>
-              
             </Link>
             <ul id="dropdown-example" className="hidden py-2 space-y-2">
               <li>
-                <Link
-                  
-                  className="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
-                >
+                <Link className="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
                   All Bookings
                 </Link>
               </li>
@@ -221,6 +219,6 @@ const AdminNav = () => {
       </div>
     </aside>
   );
-}
+};
 
-export default AdminNav
+export default AdminNav;
