@@ -1,11 +1,9 @@
-import React from 'react'
+import React from "react";
+import { getAuthToken } from "./utils/Authtoken";
 
 const AdminAccessories = () => {
-  return (
-    <div>
-      
-    </div>
-  )
-}
+  getAuthToken();
+  return <div></div>;
+};
 
-export default AdminAccessories
+export default AdminAccessories;

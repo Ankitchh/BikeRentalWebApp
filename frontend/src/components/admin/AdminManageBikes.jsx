@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { getAuthToken } from "./utils/Authtoken";
 
 const AdminManageBikes = () => {
+  getAuthToken();
+
   const navigate = useNavigate();
 
   const [error, setError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const adminToken = localStorage.getItem("adminToken");
-  console.log(adminToken);
 
   const [formData, setFormData] = useState({
     image: "",

@@ -1,11 +1,9 @@
-import React from 'react'
+import React from "react";
+import { getAuthToken } from "./utils/Authtoken";
 
 const UpdateAdmin = () => {
-  return (
-    <div>
-      
-    </div>
-  )
-}
+  getAuthToken();
+  return <div></div>;
+};
 
-export default UpdateAdmin
+export default UpdateAdmin;

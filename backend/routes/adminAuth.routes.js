@@ -219,5 +219,47 @@ router.post("/logout", adminAuthMiddleware, async (req, res) => {
   }
 });
 
+// This is a temporary route to create a new admin ## Do not un-comment ##
+
+// router.post("/createAdmin", async (req, res) => {
+//   const { email, password } = req.body;
+
+//   try {
+//     // check if the Admin email & password are provided
+
+//     if (!email || !password) {
+//       return res
+//         .status(400)
+//         .json({ message: "Please provide email and password" });
+//     }
+
+//     // check if the Admin already exists
+
+//     const existingAdmin = await Admin.findOne({ email });
+
+//     if (existingAdmin) {
+//       return res.status(409).json({ message: "Admin already exists" });
+//     }
+
+//     // hash the Admin password
+
+//     const hashedPassword = await bcrypt.hash(password, 10);
+
+//     // create a new Admin
+
+//     const newAdmin = new Admin({
+//       email,
+//       password: hashedPassword,
+//     });
+
+//     await newAdmin.save();
+
+//     res.status(201).json({ message: "Admin registered successfully" });
+//   } catch (error) {
+//     console.error("Error creating admin:", error);
+//     res.status(500).json({ message: "Internal server error" });
+//   }
+// });
+
 
 export default router;
