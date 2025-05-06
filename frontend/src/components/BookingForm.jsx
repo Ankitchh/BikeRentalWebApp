@@ -332,7 +332,7 @@ const BookingForm = () => {
             <p className="text-sm text-center mt-2">Personal Info</p>
           </div>
           <div className="flex-1 relative">
-            <div className="absolute top-4 -left-full w-full h-0.5 bg-neutral-200">
+            <div className="absolute top-16 -left-full h-0.5 bg-neutral-200">
               <div className={`h-full bg-primary-500 transition-all duration-300 ${formStep >= 2 ? 'w-full' : 'w-0'}`}></div>
             </div>
             <div className={`w-8 h-8 mx-auto rounded-full flex items-center justify-center ${formStep >= 2 ? 'bg-primary-500 text-white' : 'bg-neutral-200 text-neutral-500'}`}>

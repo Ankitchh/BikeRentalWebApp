@@ -5,10 +5,7 @@ import TotalBookings from "../graphs/TotalBookings";
 import CoustomerRatings from "../graphs/CoustomerRatings";
 import AdminNav from "./AdminNav";
 
-
-
-
-export const CircularProgress = ({ percentage, label, value ,avail }) => {
+export const CircularProgress = ({ percentage, label, value, avail }) => {
   const radius = 40;
   const circumference = 2 * Math.PI * radius;
   const strokeDashoffset = circumference - (percentage / 100) * circumference;
@@ -64,11 +61,9 @@ export const CircularProgress = ({ percentage, label, value ,avail }) => {
   );
 };
 
-
 const DashboardStats = () => {
   return (
     <>
-      
       <div className="flex flex-col w-[78wv] ml-[20vw]">
         <div className="w-[78vw] bg-[#82b1d0]   mt-5 shadow-xl shadow-[#82b1d0]/50 h-40 px-10 py-3  flex justify-between items-center">
           <div className="flex w-2xl justify-between">

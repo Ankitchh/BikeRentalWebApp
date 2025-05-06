@@ -1,39 +1,40 @@
-import React from "react";
-import { Routes, Route } from "react-router-dom";
+import React, { useEffect } from "react";
+import { Routes, Route, useLocation } from "react-router-dom";
+import { AnimatePresence } from "framer-motion";
 
-import Login from "./pages/Login";
-import Otp from "./pages/Otp";
+// Pages
 import Home from "./pages/Home";
-import Admin from "./pages/Admin";
-import Booking from "./pages/Booking";
-import Navbar from "./components/Navbar"
-import AdminLogin from "./components/admin/AdminLogin";
+import About from "./pages/About";
+import Profile from "./pages/Profile";
+import Accessories from "./pages/Accessories";
+
+// Components
+import Header from "./components/Header";
+import Footer from "./components/Footer";
+
 function App() {
-  // This is the routing table for the application
+  const location = useLocation();
+
+  // Scroll to top on page change
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location.pathname]);
 
   return (
-     <>
-      <Routes>
-        <Route
-          path="/*"
-          element={
-            <>
-              <Navbar />
-              <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/adminlogin" element={<AdminLogin />} />
-              </Routes>
-            </>
-          }
-        />
-        <Route path="/login" element={<Login />} />
-        <Route path="/otp" element={<Otp />} />
-        <Route path="/booking" element={<Booking />} />
-         <Route path="/admin/*" element={<Admin />} />
-      </Routes>
-
-      
-    </>
+    <div className="flex flex-col min-h-screen bg-neutral-50">
+      <Header />
+      <main className="flex-grow">
+        <AnimatePresence mode="wait">
+          <Routes location={location} key={location.pathname}>
+            <Route path="/" element={<Home />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/profile" element={<Profile />} />
+            <Route path="/accessories" element={<Accessories />} />
+          </Routes>
+        </AnimatePresence>
+      </main>
+      <Footer />
+    </div>
   );
 }
 
