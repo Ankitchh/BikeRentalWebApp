@@ -32,11 +32,9 @@ const Header = () => {
 
   const headerClass = isScrolled 
     ? 'bg-white shadow-md py-3'
-    : 'bg-transparent py-5';
+    : 'bg-transparent py-5 ';
     
-  const logoTextClass = isScrolled
-    ? 'text-primary-600'
-    : 'text-white';
+  const logoTextClass = isScrolled ? "text-primary-600" : "text-slate-500";
 
   const toggleMobileMenu = () => {
     setMobileMenuOpen(!mobileMenuOpen);
@@ -49,58 +47,75 @@ const Header = () => {
   };
 
   return (
-    <header className={`fixed w-full z-50 transition-all duration-300 ${headerClass}`}>
+    <header
+      className={`fixed w-full z-50 transition-all duration-300  ${headerClass}`}
+    >
       <div className="container mx-auto px-4 md:px-6">
         <div className="flex items-center justify-between">
           {/* Logo */}
-          <Link to="/" className="flex items-center">
-            <motion.div 
+          <Link to="/" className="flex items-center ">
+            <motion.div
               whileHover={{ scale: 1.05 }}
               className="flex items-center"
             >
               <Bike className={`w-8 h-8 ${logoTextClass}`} />
-              <span className={`ml-2 text-xl font-bold font-heading ${logoTextClass}`}>
+              <span
+                className={`ml-2 text-xl font-bold font-heading ${logoTextClass}`}
+              >
                 BikeRental
               </span>
             </motion.div>
           </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex space-x-8">
-            <NavLink to="/" isScrolled={isScrolled}>Home</NavLink>
-            <NavLink to="/about" isScrolled={isScrolled}>About Us</NavLink>
-            <NavLink to="/accessories" isScrolled={isScrolled}>Accessories</NavLink>
+          <nav className="hidden md:flex space-x-8 text-slate-500">
+            <NavLink to="/" isScrolled={isScrolled}>
+              Home
+            </NavLink>
+            <NavLink to="/about" isScrolled={isScrolled}>
+              About Us
+            </NavLink>
+            <NavLink to="/accessories" isScrolled={isScrolled}>
+              Accessories
+            </NavLink>
             {user ? (
               <div className="relative">
-                <button 
+                <button
                   onClick={toggleProfileMenu}
                   className="flex items-center focus:outline-none"
                 >
-                  <img 
-                    src={user.profileImage} 
+                  <img
+                    src={user.profileImage}
                     alt={user.fullName}
-                    className="w-8 h-8 rounded-full object-cover border-2 border-primary-300" 
+                    className="w-8 h-8 rounded-full object-cover border-2 border-primary-300"
                   />
-                  <span className={`ml-2 ${isScrolled ? 'text-neutral-700' : 'text-white'}`}>
-                    {user.fullName.split(' ')[0]}
+                  <span
+                    className={`ml-2 ${
+                      isScrolled ? "text-neutral-700" : "text-slate-500"
+                    }`}
+                  >
+                    {user.fullName.split(" ")[0]}
                   </span>
                 </button>
-                
+
                 <AnimatePresence>
                   {profileMenuOpen && (
-                    <motion.div 
+                    <motion.div
                       initial={{ opacity: 0, y: -10 }}
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: -10 }}
                       className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg py-2 z-50"
                     >
-                      <Link to="/profile" className="block px-4 py-2 text-neutral-700 hover:bg-primary-50">
+                      <Link
+                        to="/profile"
+                        className="block px-4 py-2 text-neutral-700 hover:bg-primary-50"
+                      >
                         <div className="flex items-center">
                           <User className="w-4 h-4 mr-2" />
                           Profile
                         </div>
                       </Link>
-                      <button 
+                      <button
                         onClick={logout}
                         className="block w-full text-left px-4 py-2 text-neutral-700 hover:bg-primary-50"
                       >
@@ -114,9 +129,13 @@ const Header = () => {
                 </AnimatePresence>
               </div>
             ) : (
-              <button 
+              <button
                 onClick={login}
-                className={`btn ${isScrolled ? 'btn-primary' : 'btn-outline border-white text-white hover:bg-white hover:text-primary-600'}`}
+                className={`btn ${
+                  isScrolled
+                    ? "btn-primary"
+                    : "btn-outline border-white text-white hover:bg-white hover:text-primary-600"
+                }`}
               >
                 Sign In
               </button>
@@ -126,16 +145,18 @@ const Header = () => {
           {/* Mobile Menu Button */}
           <div className="md:hidden flex items-center">
             {user && (
-              <img 
+              <img
                 src={user.profileImage}
                 alt={user.fullName}
                 onClick={toggleProfileMenu}
-                className="w-8 h-8 rounded-full object-cover border-2 border-primary-300 mr-4 cursor-pointer" 
+                className="w-8 h-8 rounded-full object-cover border-2 border-primary-300 mr-4 cursor-pointer"
               />
             )}
-            <button 
+            <button
               onClick={toggleMobileMenu}
-              className={`p-2 rounded-lg focus:outline-none ${isScrolled ? 'text-neutral-800' : 'text-white'}`}
+              className={`p-2 rounded-lg focus:outline-none ${
+                isScrolled ? "text-neutral-800" : "text-white"
+              }`}
             >
               {mobileMenuOpen ? (
                 <X className="w-6 h-6" />
@@ -150,19 +171,25 @@ const Header = () => {
       {/* Mobile Navigation Menu */}
       <AnimatePresence>
         {mobileMenuOpen && (
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
+            animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
             className="md:hidden bg-white"
           >
             <div className="container mx-auto px-4 py-4">
               <div className="flex flex-col space-y-3">
-                <MobileNavLink to="/" onClick={toggleMobileMenu}>Home</MobileNavLink>
-                <MobileNavLink to="/about" onClick={toggleMobileMenu}>About Us</MobileNavLink>
-                <MobileNavLink to="/accessories" onClick={toggleMobileMenu}>Accessories</MobileNavLink>
+                <MobileNavLink to="/" onClick={toggleMobileMenu}>
+                  Home
+                </MobileNavLink>
+                <MobileNavLink to="/about" onClick={toggleMobileMenu}>
+                  About Us
+                </MobileNavLink>
+                <MobileNavLink to="/accessories" onClick={toggleMobileMenu}>
+                  Accessories
+                </MobileNavLink>
                 {!user ? (
-                  <button 
+                  <button
                     onClick={login}
                     className="btn btn-primary w-full mt-2"
                   >
@@ -170,8 +197,10 @@ const Header = () => {
                   </button>
                 ) : (
                   <>
-                    <MobileNavLink to="/profile" onClick={toggleMobileMenu}>Profile</MobileNavLink>
-                    <button 
+                    <MobileNavLink to="/profile" onClick={toggleMobileMenu}>
+                      Profile
+                    </MobileNavLink>
+                    <button
                       onClick={logout}
                       className="flex items-center py-2 text-neutral-700"
                     >
@@ -189,16 +218,18 @@ const Header = () => {
       {/* Mobile Profile Menu */}
       <AnimatePresence>
         {profileMenuOpen && (
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
+            animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
             className="md:hidden bg-white"
           >
             <div className="container mx-auto px-4 py-4">
               <div className="flex flex-col space-y-3">
-                <MobileNavLink to="/profile" onClick={toggleProfileMenu}>Profile</MobileNavLink>
-                <button 
+                <MobileNavLink to="/profile" onClick={toggleProfileMenu}>
+                  Profile
+                </MobileNavLink>
+                <button
                   onClick={() => {
                     toggleProfileMenu();
                     logout();
@@ -224,8 +255,12 @@ const NavLink = ({ to, children, isScrolled }) => {
   
   const baseClasses = "relative font-medium text-base py-2 transition-colors duration-200";
   const textColorClass = isScrolled
-    ? (isActive ? "text-primary-600" : "text-neutral-700 hover:text-primary-600")
-    : (isActive ? "text-white" : "text-white/80 hover:text-white");
+    ? isActive
+      ? "text-primary-600"
+      : "text-neutral-700 hover:text-primary-600"
+    : isActive
+    ? "text-slate-500"
+    : "text-slate-500/80 hover:text-slate-500";
   
   return (
     <Link to={to} className={`${baseClasses} ${textColorClass}`}>
