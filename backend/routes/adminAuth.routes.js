@@ -5,6 +5,7 @@ import Admin from "../models/admin.model.js";
 import Sessions from "../models/sessions.models.js";
 import adminAuthMiddleware from "../middleware/adminAuth.middleware.js";
 import bikes from "../models/bike.model.js";
+import Review from "../models/review.model.js";
 
 // THIS IS ADMIN AUTHENTICATION ROUTE
 
@@ -155,6 +156,18 @@ router.post("/addBike", adminAuthMiddleware, async (req, res) => {
     }
   } catch (error) {
     console.error("Error in /addBike:", error);
+    return res.status(500).json({ message: "Internal server error" });
+  }
+});
+
+// fetching all the reviews for the Admin
+
+router.get("/get-reviews", adminAuthMiddleware, async (req, res) => {
+  try {
+    const reviewList = await Review.find();
+    res.status(200).json(reviewList);
+  } catch (error) {
+    console.error("Error in /getBikes:", error);
     return res.status(500).json({ message: "Internal server error" });
   }
 });

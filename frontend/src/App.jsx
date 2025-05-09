@@ -7,6 +7,8 @@ import Home from "./pages/Home";
 import About from "./pages/About";
 import Profile from "./pages/Profile";
 import Accessories from "./pages/Accessories";
+import Login from "./pages/Login";
+import Otp from "./pages/Otp";
 
 // Components
 import Header from "./components/Header";

@@ -43,7 +43,6 @@ const Home = () => {
         setTimeout(() => {
           setLoading(false);
         }, 800);
-        toast.success("Welcome to BikeRental! Explore our collection.");
       } catch (error) {
         console.error("Error fetching bikes:", error);
       }
