@@ -122,17 +122,7 @@ router.post("/login", async (req, res) => {
 //Adding bike
 
 router.post("/addBike", adminAuthMiddleware, async (req, res) => {
-  const {
-    image,
-    bikeModel,
-    ratePerDay,
-    rating,
-    milage,
-    optionOne,
-    optionTwo,
-    description,
-    bikeCount,
-  } = req.body;
+  const { image, bikeModel, ratePerDay, description, bikeCount } = req.body;
 
   try {
     // Fix: await bikes.findOne({ bikeModel }) instead of bikes.find()
@@ -143,10 +133,6 @@ router.post("/addBike", adminAuthMiddleware, async (req, res) => {
         image,
         bikeModel,
         ratePerDay,
-        rating,
-        milage,
-        optionOne,
-        optionTwo,
         description,
         bikeCount,
       });
@@ -156,7 +142,7 @@ router.post("/addBike", adminAuthMiddleware, async (req, res) => {
         bike: newBike,
       });
     } else {
-      // Fix: Proper update syntax
+      
       const updatedBike = await bikes.findOneAndUpdate(
         { bikeModel },
         { $inc: { bikeCount } }, // Increment bikeCount
