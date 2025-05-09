@@ -122,17 +122,7 @@ router.post("/login", async (req, res) => {
 //Adding bike
 
 router.post("/addBike", adminAuthMiddleware, async (req, res) => {
-  const {
-    image,
-    bikeModel,
-    ratePerDay,
-    rating,
-    milage,
-    optionOne,
-    optionTwo,
-    optionThree,
-    bikeCount,
-  } = req.body;
+  const { image, bikeModel, ratePerDay, description, bikeCount } = req.body;
 
   try {
     // Fix: await bikes.findOne({ bikeModel }) instead of bikes.find()
@@ -143,11 +133,7 @@ router.post("/addBike", adminAuthMiddleware, async (req, res) => {
         image,
         bikeModel,
         ratePerDay,
-        rating,
-        milage,
-        optionOne,
-        optionTwo,
-        optionThree,
+        description,
         bikeCount,
       });
 
@@ -156,7 +142,7 @@ router.post("/addBike", adminAuthMiddleware, async (req, res) => {
         bike: newBike,
       });
     } else {
-      // Fix: Proper update syntax
+      
       const updatedBike = await bikes.findOneAndUpdate(
         { bikeModel },
         { $inc: { bikeCount } }, // Increment bikeCount
@@ -260,6 +246,5 @@ router.post("/logout", adminAuthMiddleware, async (req, res) => {
 //     res.status(500).json({ message: "Internal server error" });
 //   }
 // });
-
 
 export default router;
