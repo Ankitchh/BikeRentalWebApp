@@ -6,10 +6,15 @@ import { useNavigate } from "react-router-dom";
 
 function Otp() {
   const [otp, setOtp] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [timeout, settimeout] = useState(false);
   const navigate = useNavigate();
   const userId = localStorage.getItem("userId");
   const email = localStorage.getItem("email");
+
+  setTimeout(() => {
+    setIsLoading(false);
+  }, 1000);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -56,6 +61,10 @@ function Otp() {
 
   const handleResend = async (e) => {
     e.preventDefault();
+    settimeout(true);
+    setTimeout(() => {
+      settimeout(false);
+    }, 500000);
     try {
       const res = await axios.post(
         `${import.meta.env.VITE_BASE_URL}/user/resend-otp`,
@@ -82,7 +91,7 @@ function Otp() {
         <LoadingSpinner />
       ) : (
         <div className="font-[poppins] min-h-screen w-full bg-[url(https://www.orangewayfarer.com/wp-content/uploads/2021/01/DJI_0298-01.jpg)] bg-cover p-4 flex justify-center items-center lg:justify-end lg:pr-30">
-          <div className="h-[30rem] w-[24rem] border border-white bg-transparent backdrop-blur-2xl rounded-md">
+          <div className="h-[33rem] w-[24rem] border border-white bg-transparent backdrop-blur-2xl rounded-md lg:mr-10">
             <div className="mt-3 text-center text-xl font-bold">
               <h1>Welcome to Bike-Rental!</h1>
             </div>
@@ -91,7 +100,7 @@ function Otp() {
 
             <form onSubmit={handleSubmit}>
               <div
-                className="shadow-2xl m-7 p-2 h-75 text-center rounded"
+                className="shadow-2xl m-7 p-2 h-80 text-center rounded"
                 style={{ boxShadow: "10px 10px 10px 10px rgba(0, 0, 0, 0.2)" }}
               >
                 <label className="mt-2 text-xl font-semibold" htmlFor="otp">
@@ -106,7 +115,7 @@ function Otp() {
                   spam folder.
                 </span>
                 <input
-                  className="outline-none border w-[90%] px-3 py-2 mt-6 rounded appearance-none block ml-3"
+                  className="outline-none border w-[90%] px-3 py-2 mt-3 rounded appearance-none block ml-3 bg-transparent text-zinc-900"
                   type="number"
                   placeholder="Enter your OTP"
                   value={otp}
@@ -125,11 +134,14 @@ function Otp() {
 
             <div className="text-center">
               <button
+                disabled={timeout}
                 onClick={handleResend}
                 type="button"
-                className="text-blue-600 hover:underline"
+                className="text-zinc-800 hover:underline text-xs font-bold"
               >
-                Didn't receive code? Click here
+                {timeout
+                  ? "code resended to your email : wait for 5 min to resend again"
+                  : "Didn't receive code? Click here"}
               </button>
             </div>
           </div>

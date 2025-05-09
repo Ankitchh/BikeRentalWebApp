@@ -2,7 +2,6 @@ import mongoose from "mongoose";
 
 // THIS IS ACCESSORIE COLLECTION SCHEMA WHICH WILL BE USED TO STORE ACCESSORIE DATA IN THE DATABASE
 
-
 const accessorieSchema = new mongoose.Schema({
   image: {
     type: String,
@@ -23,6 +22,10 @@ const accessorieSchema = new mongoose.Schema({
   description: {
     type: String,
     default: "Not Available",
+  },
+  accessorieCount: {
+    type: Number,
+    default: 0,
   },
 });
 
