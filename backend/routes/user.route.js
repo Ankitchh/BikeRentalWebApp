@@ -2,7 +2,7 @@ import express from "express";
 import Cart from "../models/cart.model.js";
 import Booking from "../models/booking.model.js";
 import User from "../models/user.model.js";
-
+import Review from "../models/review.model.js";
 
 const router = express.Router();
 
@@ -138,6 +138,36 @@ router.post("/cart/:userId/accessories", async (req, res) => {
   }
 });
 
+// This route is used when a user wants to give a review
 
+router.post("/review", async (req, res) => {
+  const { userId, rating, description } = req.body;
+
+  try {
+    // Find the user by ID
+
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    // Create a new review
+    const review = new Review({
+      userId: user._id,
+      name: user.fullName,
+      avatar: user.profilePic,
+      rating,
+      description,
+    });
+
+    // Save the review to the database
+    await review.save();
+
+    // Send a response back to the client
+    res.status(201).json({ message: "Review created successfully" });
+  } catch (error) {
+    console.error("Error creating review:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+});
 
 export default router;
