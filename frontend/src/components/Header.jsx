@@ -1,16 +1,27 @@
-import React, { useState, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import { motion, AnimatePresence } from 'framer-motion';
-import { useAuth } from '../context/AuthContext';
-import { Bike, Menu, X, User, LogOut } from 'lucide-react';
+import React, { useState, useEffect } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { motion, AnimatePresence } from "framer-motion";
+import { useAuth } from "../context/AuthContext";
+import { Bike, Menu, X, User, LogOut } from "lucide-react";
+import axios from "axios";
 
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [profileMenuOpen, setProfileMenuOpen] = useState(false);
-  const { user, login, logout } = useAuth();
+  const [loading, setloading] = useState(false);
+  const { user } = useAuth();
   const location = useLocation();
-  
+  const navigate = useNavigate();
+
+  const loginHandler = async () => {
+    setloading(true);
+    navigate("/login");
+  };
+  const logoutHandler = () => {
+    logout();
+  };
+
   // Close mobile menu when navigating
   useEffect(() => {
     setMobileMenuOpen(false);
@@ -26,14 +37,14 @@ const Header = () => {
       }
     };
 
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const headerClass = isScrolled 
-    ? 'bg-white shadow-md py-3'
-    : 'bg-transparent py-5 ';
-    
+  const headerClass = isScrolled
+    ? "bg-white shadow-md py-3"
+    : "bg-transparent py-5 ";
+
   const logoTextClass = isScrolled ? "text-primary-600" : "text-slate-500";
 
   const toggleMobileMenu = () => {
@@ -116,7 +127,7 @@ const Header = () => {
                         </div>
                       </Link>
                       <button
-                        onClick={logout}
+                        onClick={logoutHandler}
                         className="block w-full text-left px-4 py-2 text-neutral-700 hover:bg-primary-50"
                       >
                         <div className="flex items-center">
@@ -130,7 +141,7 @@ const Header = () => {
               </div>
             ) : (
               <button
-                onClick={login}
+                onClick={loginHandler}
                 className={`btn ${
                   isScrolled
                     ? "btn-primary"
@@ -252,8 +263,9 @@ const Header = () => {
 const NavLink = ({ to, children, isScrolled }) => {
   const location = useLocation();
   const isActive = location.pathname === to;
-  
-  const baseClasses = "relative font-medium text-base py-2 transition-colors duration-200";
+
+  const baseClasses =
+    "relative font-medium text-base py-2 transition-colors duration-200";
   const textColorClass = isScrolled
     ? isActive
       ? "text-primary-600"
@@ -261,14 +273,16 @@ const NavLink = ({ to, children, isScrolled }) => {
     : isActive
     ? "text-slate-500"
     : "text-slate-500/80 hover:text-slate-500";
-  
+
   return (
     <Link to={to} className={`${baseClasses} ${textColorClass}`}>
       {children}
       {isActive && (
         <motion.div
           layoutId="activeNavIndicator"
-          className={`absolute bottom-0 left-0 w-full h-0.5 ${isScrolled ? 'bg-primary-600' : 'bg-white'}`}
+          className={`absolute bottom-0 left-0 w-full h-0.5 ${
+            isScrolled ? "bg-primary-600" : "bg-white"
+          }`}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.3 }}
@@ -282,12 +296,14 @@ const NavLink = ({ to, children, isScrolled }) => {
 const MobileNavLink = ({ to, onClick, children }) => {
   const location = useLocation();
   const isActive = location.pathname === to;
-  
+
   return (
-    <Link 
+    <Link
       to={to}
       onClick={onClick}
-      className={`py-2 ${isActive ? 'text-primary-600 font-medium' : 'text-neutral-700'}`}
+      className={`py-2 ${
+        isActive ? "text-primary-600 font-medium" : "text-neutral-700"
+      }`}
     >
       {children}
     </Link>

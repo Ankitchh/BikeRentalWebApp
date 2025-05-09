@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { Slide, ToastContainer, toast } from "react-toastify";
-import Loading from "../components/Loading";
+import LoadingSpinner from "../components/LoadingSpinner";
 
 function Login() {
   const [Email, setEmail] = useState("");
@@ -89,7 +89,7 @@ function Login() {
   return (
     <>
       {IsLoading ? (
-        <Loading />
+        <LoadingSpinner />
       ) : (
         <div className="font-[poppins] min-h-screen w-full bg-[url(https://www.orangewayfarer.com/wp-content/uploads/2021/01/DJI_0298-01.jpg)] bg-cover p-4 flex justify-center items-center lg:justify-end lg:pr-30 ">
           <div className=" h-[30rem] w-[24rem] border border-white bg-transparent backdrop-blur-2xl rounded-md">
