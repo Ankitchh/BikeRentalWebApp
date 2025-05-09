@@ -92,7 +92,7 @@ function Login() {
         <LoadingSpinner />
       ) : (
         <div className="font-[poppins] min-h-screen w-full bg-[url(https://www.orangewayfarer.com/wp-content/uploads/2021/01/DJI_0298-01.jpg)] bg-cover p-4 flex justify-center items-center lg:justify-end lg:pr-30 ">
-          <div className=" h-[30rem] w-[24rem] border border-white bg-transparent backdrop-blur-2xl rounded-md">
+          <div className=" h-[34rem]  w-[24rem] border border-white bg-transparent backdrop-blur-2xl rounded-md lg:mr-10">
             <div className="mt-3 text-center text-xl font-bold">
               <h1>Welcome to Bike-Rental !</h1>
             </div>
@@ -112,7 +112,7 @@ function Login() {
                 </label>
                 <hr className="mb-2 mt-1.5 w-3/4 ml-10" />
                 <input
-                  className="outline-none border w-[90%] px-3 py-2 mt-3 rounded "
+                  className="outline-none border w-[90%] px-3 py-2 mt-3 rounded bg-transparent text-zinc-900"
                   type="text"
                   placeholder="Enter Your FullName"
                   value={FullName}
@@ -126,9 +126,9 @@ function Login() {
                   <label className="mt-4 text-xl font-semibold" htmlFor="Email">
                     Email
                   </label>
-                  <div className="w-3/4 bg-black h-[1px] mt-2 ml-10 mb-2 "></div>
+                  <div className="w-3/4 bg-white h-[1px] mt-2 ml-10 mb-2 "></div>
                   <input
-                    className="outline-none border  w-[90%] px-3 py-2 mt-3 rounded "
+                    className="outline-none border  w-[90%] px-3 py-2 mt-3 rounded bg-transparent text-zinc-900"
                     type="email"
                     placeholder="Enter Your Email"
                     value={Email}
