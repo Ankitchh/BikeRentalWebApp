@@ -6,6 +6,8 @@ import Sessions from "../models/sessions.models.js";
 import adminAuthMiddleware from "../middleware/adminAuth.middleware.js";
 import bikes from "../models/bike.model.js";
 import Review from "../models/review.model.js";
+import Accessories from "../models/accessorie.model.js";
+import TermAndCondition from "../models/term.model.js";
 
 // THIS IS ADMIN AUTHENTICATION ROUTE
 
@@ -14,12 +16,12 @@ const router = express.Router();
 // Register a new Admin
 
 router.post("/register", adminAuthMiddleware, async (req, res) => {
-  const { email, password } = req.body;
+  const { email, password, adminName, profilePicture } = req.body;
 
   try {
     // check if the Admin email & password are provided
 
-    if (!email || !password) {
+    if (!email || !password || !adminName || !profilePicture) {
       return res
         .status(400)
         .json({ message: "Please provide email and password" });
@@ -42,6 +44,8 @@ router.post("/register", adminAuthMiddleware, async (req, res) => {
     const newAdmin = new Admin({
       email,
       password: hashedPassword,
+      adminName,
+      profilePicture,
     });
 
     await newAdmin.save();
@@ -113,9 +117,35 @@ router.post("/login", async (req, res) => {
     res.status(200).json({
       message: "Login successful",
       token,
+      admin,
     });
   } catch (error) {
     console.error("Error during login:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+});
+
+// Delete the exixting admin
+
+router.post("/delete/:id", adminAuthMiddleware, async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    // check if the Admin is valid
+
+    const admin = await Admin.findById(id);
+
+    if (!admin) {
+      return res.status(401).json({ message: "Invalid Admin" });
+    }
+
+    // delete the Admin
+
+    await admin.remove();
+
+    res.status(200).json({ message: "Admin deleted successfully" });
+  } catch (error) {
+    console.error("Error during delete:", error);
     res.status(500).json({ message: "Internal server error" });
   }
 });
@@ -169,6 +199,95 @@ router.get("/get-reviews", adminAuthMiddleware, async (req, res) => {
   } catch (error) {
     console.error("Error in /getBikes:", error);
     return res.status(500).json({ message: "Internal server error" });
+  }
+});
+
+// Adding a new accessories
+
+router.post("/addAccessories", adminAuthMiddleware, async (req, res) => {
+  const { image, accessorieName, ratePerDay, description, accessorieCount } =
+    req.body;
+
+  try {
+    const existingAccessorie = await Accessories.findOne({ accessorieName });
+
+    if (!existingAccessorie) {
+      const newAccessorie = await Accessories.create({
+        image,
+        accessorieName,
+        ratePerDay,
+        description,
+        accessorieCount,
+      });
+
+      return res.status(201).json({
+        message: "Accessorie added successfully",
+        accessorie: newAccessorie,
+      });
+    } else {
+      const updatedAccessorie = await Accessories.findOneAndUpdate(
+        { accessorieName },
+        { $inc: { accessorieCount } }, // Increment accessorieCount
+        { new: true }
+      );
+
+      return res.status(200).json({
+        message: "Accessorie count updated",
+        accessorie: updatedAccessorie,
+      });
+    }
+  } catch (error) {
+    console.error("Error in /addAccessories:", error);
+    return res.status(500).json({ message: "Internal server error" });
+  }
+});
+
+// terms and conditions
+
+router.post("/terms", adminAuthMiddleware, async (req, res) => {
+  const { description } = req.body;
+
+  try {
+    // check if the terms and conditions are provided
+
+    if (!description) {
+      return res
+        .status(400)
+        .json({ message: "Please provide terms and conditions" });
+    }
+
+    // check if the terms and conditions already exist
+
+    const existingTerms = await TermAndCondition.find();
+
+    // create a new terms and conditions
+
+    if (!existingTerms) {
+      const newTerms = new TermAndCondition({
+        description,
+      });
+
+      await newTerms.save();
+
+      res
+        .status(201)
+        .json({ message: "Terms and conditions added successfully" });
+    } else {
+      // update the existing terms and conditions
+
+      const updatedTerms = await TermAndCondition.findOneAndUpdate(
+        { description },
+        { $set: { description } }, // Update the description
+        { new: true }
+      );
+      return res.status(200).json({
+        message: "Terms and conditions updated",
+        terms: updatedTerms,
+      });
+    }
+  } catch (error) {
+    console.error("Error creating terms and conditions:", error);
+    res.status(500).json({ message: "Internal server error" });
   }
 });
 
