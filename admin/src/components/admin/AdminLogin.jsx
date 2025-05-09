@@ -1,9 +1,12 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import DashboardStats from "./DashboardStats";
+import { useAdmin } from "../context/AdminContext";
 
 const AdminLogin = () => {
   const [email, setEmail] = useState("");
+  
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
@@ -15,15 +18,21 @@ const AdminLogin = () => {
         `${import.meta.env.VITE_BASE_URL}/admin/login`,
         data
       );
-
+      
+      // setAdminData(response.data);
+      console.log(response);
       const adminToken = response.data.token;
       localStorage.setItem("adminToken", adminToken);
-
+     
+      
       navigate("/admin");
     } catch (error) {
       console.log(error);
     }
   };
+
+
+  
   return (
     <div className="w-[25vw] h-[50vh] bg-[#1b4b46] absolute top-[50%] left-[50%] -translate-1/2 flex flex-col gap-15 p-5 items-center rounded">
       <h1 className="text-6xl">

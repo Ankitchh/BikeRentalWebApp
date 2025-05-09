@@ -10,7 +10,7 @@ const Header = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [profileMenuOpen, setProfileMenuOpen] = useState(false);
   const [loading, setloading] = useState(false);
-  const { user } = useAuth();
+  const { user,logout } = useAuth();
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -215,7 +215,7 @@ const Header = () => {
                       onClick={logout}
                       className="flex items-center py-2 text-neutral-700"
                     >
-                      <LogOut className="w-4 h-4 mr-2" />
+                      <LogOut onClick={logoutHandler} className="w-4 h-4 mr-2" />
                       Logout
                     </button>
                   </>

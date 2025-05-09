@@ -1,9 +1,10 @@
-import React from "react";
+import { React, useState } from "react";
 import Revinue from "../graphs/Revinue";
 import RegUser from "../graphs/RegUser";
 import TotalBookings from "../graphs/TotalBookings";
 import CoustomerRatings from "../graphs/CoustomerRatings";
-import AdminNav from "./AdminNav";
+import axios from "axios";
+import { useAdmin } from "../context/AdminContext";
 
 export const CircularProgress = ({ percentage, label, value, avail }) => {
   const radius = 40;
@@ -62,6 +63,13 @@ export const CircularProgress = ({ percentage, label, value, avail }) => {
 };
 
 const DashboardStats = () => {
+  const [profileMenuOpen, setProfileMenuOpen] = useState(false);
+  const { adminData } = useAdmin();
+
+  const toggleProfileMenu = () => {
+    setProfileMenuOpen(!profileMenuOpen);
+  };
+
   return (
     <>
       <div className="flex flex-col w-[78wv] ml-[20vw]">
@@ -91,6 +99,8 @@ const DashboardStats = () => {
               label="Pending Bookings Approvals"
               value={400}
             />
+            {console.log(adminData?.adminName)}
+            
           </div>
 
           <div className="w-25 h-25 rounded-full bg-gray-500 p-2">
