@@ -5,12 +5,13 @@ const AuthContext = createContext();
 
 // Sample user data - in a real app, this would come from an API
 const sampleUser = {
-  id: '123',
-  fullName: 'John Doe',
-  address: '123 Main St, Anytown, USA',
-  email: 'john.doe@example.com',
-  phone: '+1 (555) 123-4567',
-  profileImage: 'https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg?auto=compress&cs=tinysrgb&w=300'
+  id: "2341",
+  fullName: "Ankit Chhetri",
+  address: "Siliguri, Bagdogra",
+  email: "ankit@example.com",
+  phone: "+91 90374 83940",
+  profileImage:
+    "https://plus.unsplash.com/premium_vector-1697729872034-3012908a1765?q=80&w=2360&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
 };
 
 export const AuthProvider = ({ children }) => {

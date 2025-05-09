@@ -1,16 +1,16 @@
 import React from "react";
 
 import { Route, Routes } from "react-router-dom";
-import DashboardStats from "./components/admin/DashboardStats";
-import AdminBookings from "./components/admin/AdminBookings";
-import AdminPackages from "./components/admin/AdminPacakages";
-import AdminNav from "./components/admin/AdminNav";
-import AdminManageBikes from "./components/admin/AdminManageBikes";
-import AdminAccessories from "./components/admin/AdminAccessories";
-import AdminCustomers from "./components/admin/AdminCustomers";
-import AdminTermsAndConditions from "./components/admin/AdminTermsAndConditions";
-import AdminReview from "./components/admin/AdminReview";
-import UpdateAdmin from "./components/admin/UpdateAdmin";
+import DashboardStats from "../components/admin/DashboardStats";
+import AdminBookings from "../components/admin/AdminBookings";
+import AdminPackages from "../components/admin/AdminPacakages";
+import AdminNav from "../components/admin/AdminNav";
+import AdminManageBikes from "../components/admin/AdminManageBikes";
+import AdminAccessories from "../components/admin/AdminAccessories";
+import AdminCustomers from "../components/admin/AdminCustomers";
+import AdminTermsAndConditions from "../components/admin/AdminTermsAndConditions";
+import AdminReview from "../components/admin/AdminReview";
+import UpdateAdmin from "../components/admin/UpdateAdmin";
 
 const Admin = () => {
   return (

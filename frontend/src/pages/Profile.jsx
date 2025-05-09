@@ -150,242 +150,275 @@ const Profile = () => {
   
   return (
     <>
-    <Header/>
-    <div className="min-h-screen pt-20 pb-20 bg-neutral-50">
-      <div className="container mx-auto px-4">
-        <div className="max-w-4xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="bg-white rounded-2xl shadow-lg p-6 md:p-8 mb-8"
-          >
-            <h1 className="text-3xl font-bold mb-8">My Profile</h1>
-            
-            <div className="flex flex-col md:flex-row gap-8">
-              {/* Profile Image */}
-              <div className="md:w-1/3 flex flex-col items-center">
-                <div className="relative group">
-                  <img 
-                    src={user.profileImage} 
-                    alt={user.fullName}
-                    className="w-40 h-40 rounded-full object-cover border-4 border-primary-200" 
-                  />
-                  <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 rounded-full opacity-0 group-hover:opacity-100 transition-opacity">
-                    <label className="cursor-pointer flex flex-col items-center">
-                      <Upload className="w-8 h-8 text-white mb-1" />
-                      <span className="text-white text-sm">Change Photo</span>
-                      <input 
-                        type="file" 
-                        accept="image/*"
-                        onChange={handleImageUpload}
-                        className="hidden" 
-                      />
-                    </label>
-                  </div>
-                  {uploadingImage && (
-                    <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-70 rounded-full">
-                      <div className="w-10 h-10 border-4 border-white border-t-transparent rounded-full animate-spin"></div>
+      <Header />
+      <div className="min-h-screen pt-20 pb-20 bg-neutral-50">
+        <div className="container mx-auto px-4">
+          <div className="max-w-4xl mx-auto">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              className="bg-white rounded-2xl shadow-lg p-6 md:p-8 mb-8"
+            >
+              <h1 className="text-3xl font-bold mb-8">My Profile</h1>
+
+              <div className="flex flex-col md:flex-row gap-8">
+                {/* Profile Image */}
+                <div className="md:w-1/3 flex flex-col items-center">
+                  <div className="relative group">
+                    <img
+                      src={user.profileImage}
+                      alt={user.fullName}
+                      className="w-40 h-40 rounded-full object-cover border-4 border-primary-200"
+                    />
+                    <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 rounded-full opacity-0 group-hover:opacity-100 transition-opacity">
+                      <label className="cursor-pointer flex flex-col items-center">
+                        <Upload className="w-8 h-8 text-white mb-1" />
+                        <span className="text-white text-sm">Change Photo</span>
+                        <input
+                          type="file"
+                          accept="image/*"
+                          onChange={handleImageUpload}
+                          className="hidden"
+                        />
+                      </label>
                     </div>
-                  )}
+                    {uploadingImage && (
+                      <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-70 rounded-full">
+                        <div className="w-10 h-10 border-4 border-white border-t-transparent rounded-full animate-spin"></div>
+                      </div>
+                    )}
+                  </div>
+                  <h2 className="text-xl font-semibold mt-4">
+                    {user.fullName}
+                  </h2>
+                  <p className="text-neutral-500">Member since 2023</p>
                 </div>
-                <h2 className="text-xl font-semibold mt-4">{user.fullName}</h2>
-                <p className="text-neutral-500">Member since 2023</p>
-              </div>
-              
-              {/* Profile Details */}
-              <div className="md:w-2/3">
-                <h3 className="text-xl font-semibold mb-4">Personal Information</h3>
-                
-                <div className="space-y-4">
-                  {/* Full Name */}
-                  <div className="border-b border-neutral-200 pb-4">
-                    <div className="flex justify-between items-center mb-2">
-                      <label className="text-neutral-500">Full Name</label>
-                      <button 
-                        onClick={() => toggleEditMode('fullName')}
-                        className="text-primary-500 hover:text-primary-600"
-                      >
-                        {editMode.fullName ? <X className="w-4 h-4" /> : <Edit2 className="w-4 h-4" />}
-                      </button>
-                    </div>
-                    
-                    {editMode.fullName ? (
-                      <div className="flex">
-                        <input
-                          type="text"
-                          name="fullName"
-                          value={formData.fullName}
-                          onChange={handleChange}
-                          className="input flex-grow"
-                        />
-                        <button 
-                          onClick={() => saveField('fullName')}
-                          className="ml-2 bg-primary-500 text-white p-2 rounded-lg hover:bg-primary-600"
+
+                {/* Profile Details */}
+                <div className="md:w-2/3">
+                  <h3 className="text-xl font-semibold mb-4">
+                    Personal Information
+                  </h3>
+
+                  <div className="space-y-4">
+                    {/* Full Name */}
+                    <div className="border-b border-neutral-200 pb-4">
+                      <div className="flex justify-between items-center mb-2">
+                        <label className="text-neutral-500">Full Name</label>
+                        <button
+                          onClick={() => toggleEditMode("fullName")}
+                          className="text-primary-500 hover:text-primary-600"
                         >
-                          <Check className="w-5 h-5" />
+                          {editMode.fullName ? (
+                            <X className="w-4 h-4" />
+                          ) : (
+                            <Edit2 className="w-4 h-4" />
+                          )}
                         </button>
                       </div>
-                    ) : (
-                      <p>{user.fullName}</p>
-                    )}
-                  </div>
-                  
-                  {/* Email */}
-                  <div className="border-b border-neutral-200 pb-4">
-                    <div className="flex justify-between items-center mb-2">
-                      <label className="text-neutral-500">Email</label>
-                      <button 
-                        onClick={() => toggleEditMode('email')}
-                        className="text-primary-500 hover:text-primary-600"
-                      >
-                        {editMode.email ? <X className="w-4 h-4" /> : <Edit2 className="w-4 h-4" />}
-                      </button>
+
+                      {editMode.fullName ? (
+                        <div className="flex">
+                          <input
+                            type="text"
+                            name="fullName"
+                            value={formData.fullName}
+                            onChange={handleChange}
+                            className="input flex-grow"
+                          />
+                          <button
+                            onClick={() => saveField("fullName")}
+                            className="ml-2 bg-primary-500 text-white p-2 rounded-lg hover:bg-primary-600"
+                          >
+                            <Check className="w-5 h-5" />
+                          </button>
+                        </div>
+                      ) : (
+                        <p>{user.fullName}</p>
+                      )}
                     </div>
-                    
-                    {editMode.email ? (
-                      <div className="flex">
-                        <input
-                          type="email"
-                          name="email"
-                          value={formData.email}
-                          onChange={handleChange}
-                          className="input flex-grow"
-                        />
-                        <button 
-                          onClick={() => saveField('email')}
-                          className="ml-2 bg-primary-500 text-white p-2 rounded-lg hover:bg-primary-600"
+
+                    {/* Email */}
+                    <div className="border-b border-neutral-200 pb-4">
+                      <div className="flex justify-between items-center mb-2">
+                        <label className="text-neutral-500">Email</label>
+                        <button
+                          onClick={() => toggleEditMode("email")}
+                          className="text-primary-500 hover:text-primary-600"
                         >
-                          <Check className="w-5 h-5" />
+                          {editMode.email ? (
+                            <X className="w-4 h-4" />
+                          ) : (
+                            <Edit2 className="w-4 h-4" />
+                          )}
                         </button>
                       </div>
-                    ) : (
-                      <p>{user.email}</p>
-                    )}
-                  </div>
-                  
-                  {/* Phone */}
-                  <div className="border-b border-neutral-200 pb-4">
-                    <div className="flex justify-between items-center mb-2">
-                      <label className="text-neutral-500">Phone</label>
-                      <button 
-                        onClick={() => toggleEditMode('phone')}
-                        className="text-primary-500 hover:text-primary-600"
-                      >
-                        {editMode.phone ? <X className="w-4 h-4" /> : <Edit2 className="w-4 h-4" />}
-                      </button>
+
+                      {editMode.email ? (
+                        <div className="flex">
+                          <input
+                            type="email"
+                            name="email"
+                            value={formData.email}
+                            onChange={handleChange}
+                            className="input flex-grow"
+                          />
+                          <button
+                            onClick={() => saveField("email")}
+                            className="ml-2 bg-primary-500 text-white p-2 rounded-lg hover:bg-primary-600"
+                          >
+                            <Check className="w-5 h-5" />
+                          </button>
+                        </div>
+                      ) : (
+                        <p>{user.email}</p>
+                      )}
                     </div>
-                    
-                    {editMode.phone ? (
-                      <div className="flex">
-                        <input
-                          type="tel"
-                          name="phone"
-                          value={formData.phone}
-                          onChange={handleChange}
-                          className="input flex-grow"
-                        />
-                        <button 
-                          onClick={() => saveField('phone')}
-                          className="ml-2 bg-primary-500 text-white p-2 rounded-lg hover:bg-primary-600"
+
+                    {/* Phone */}
+                    <div className="border-b border-neutral-200 pb-4">
+                      <div className="flex justify-between items-center mb-2">
+                        <label className="text-neutral-500">Phone</label>
+                        <button
+                          onClick={() => toggleEditMode("phone")}
+                          className="text-primary-500 hover:text-primary-600"
                         >
-                          <Check className="w-5 h-5" />
+                          {editMode.phone ? (
+                            <X className="w-4 h-4" />
+                          ) : (
+                            <Edit2 className="w-4 h-4" />
+                          )}
                         </button>
                       </div>
-                    ) : (
-                      <p>{user.phone}</p>
-                    )}
-                  </div>
-                  
-                  {/* Address */}
-                  <div className="border-b border-neutral-200 pb-4">
-                    <div className="flex justify-between items-center mb-2">
-                      <label className="text-neutral-500">Address</label>
-                      <button 
-                        onClick={() => toggleEditMode('address')}
-                        className="text-primary-500 hover:text-primary-600"
-                      >
-                        {editMode.address ? <X className="w-4 h-4" /> : <Edit2 className="w-4 h-4" />}
-                      </button>
+
+                      {editMode.phone ? (
+                        <div className="flex">
+                          <input
+                            type="tel"
+                            name="phone"
+                            value={formData.phone}
+                            onChange={handleChange}
+                            className="input flex-grow"
+                          />
+                          <button
+                            onClick={() => saveField("phone")}
+                            className="ml-2 bg-primary-500 text-white p-2 rounded-lg hover:bg-primary-600"
+                          >
+                            <Check className="w-5 h-5" />
+                          </button>
+                        </div>
+                      ) : (
+                        <p>{user.phone}</p>
+                      )}
                     </div>
-                    
-                    {editMode.address ? (
-                      <div className="flex">
-                        <input
-                          type="text"
-                          name="address"
-                          value={formData.address}
-                          onChange={handleChange}
-                          className="input flex-grow"
-                        />
-                        <button 
-                          onClick={() => saveField('address')}
-                          className="ml-2 bg-primary-500 text-white p-2 rounded-lg hover:bg-primary-600"
+
+                    {/* Address */}
+                    <div className="border-b border-neutral-200 pb-4">
+                      <div className="flex justify-between items-center mb-2">
+                        <label className="text-neutral-500">Address</label>
+                        <button
+                          onClick={() => toggleEditMode("address")}
+                          className="text-primary-500 hover:text-primary-600"
                         >
-                          <Check className="w-5 h-5" />
+                          {editMode.address ? (
+                            <X className="w-4 h-4" />
+                          ) : (
+                            <Edit2 className="w-4 h-4" />
+                          )}
                         </button>
                       </div>
-                    ) : (
-                      <p>{user.address}</p>
-                    )}
+
+                      {editMode.address ? (
+                        <div className="flex">
+                          <input
+                            type="text"
+                            name="address"
+                            value={formData.address}
+                            onChange={handleChange}
+                            className="input flex-grow"
+                          />
+                          <button
+                            onClick={() => saveField("address")}
+                            className="ml-2 bg-primary-500 text-white p-2 rounded-lg hover:bg-primary-600"
+                          >
+                            <Check className="w-5 h-5" />
+                          </button>
+                        </div>
+                      ) : (
+                        <p>{user.address}</p>
+                      )}
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          </motion.div>
-          
-          {/* Booking History */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            className="bg-white rounded-2xl shadow-lg p-6 md:p-8"
-          >
-            <h3 className="text-xl font-semibold mb-6">My Booking History</h3>
-            
-            <div className="overflow-x-auto">
-              <table className="w-full">
-                <thead>
-                  <tr className="text-left border-b border-neutral-200">
-                    <th className="py-3 px-2">Booking ID</th>
-                    <th className="py-3 px-2">Date</th>
-                    <th className="py-3 px-2">Bike Type</th>
-                    <th className="py-3 px-2">Status</th>
-                    <th className="py-3 px-2">Amount</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {bookingHistory.map((booking, index) => (
-                    <tr key={booking.id} className={`border-b border-neutral-200 ${index % 2 === 0 ? 'bg-neutral-50' : ''}`}>
-                      <td className="py-4 px-2 font-medium">{booking.id}</td>
-                      <td className="py-4 px-2">{booking.date}</td>
-                      <td className="py-4 px-2">{booking.bikeType}</td>
-                      <td className="py-4 px-2">
-                        <span className={`inline-block px-3 py-1 rounded-full text-xs font-medium ${
-                          booking.status === 'Completed' 
-                            ? 'bg-green-100 text-green-800' 
-                            : 'bg-primary-100 text-primary-800'
-                        }`}>
-                          {booking.status}
-                        </span>
-                      </td>
-                      <td className="py-4 px-2 font-medium">${booking.totalAmount.toFixed(2)}</td>
+            </motion.div>
+
+            {/* Booking History */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+              className="bg-white rounded-2xl shadow-lg p-6 md:p-8"
+            >
+              <h3 className="text-xl font-semibold mb-6">My Booking History</h3>
+
+              <div className="overflow-x-auto">
+                <table className="w-full">
+                  <thead>
+                    <tr className="text-left border-b border-neutral-200">
+                      <th className="py-3 px-2">Booking ID</th>
+                      <th className="py-3 px-2">Date</th>
+                      <th className="py-3 px-2">Bike Type</th>
+                      <th className="py-3 px-2">Status</th>
+                      <th className="py-3 px-2">Amount</th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-            
-            {bookingHistory.length === 0 && (
-              <div className="text-center py-6">
-                <p className="text-neutral-500">You haven't made any bookings yet.</p>
-                <button className="btn btn-primary mt-4">Book Your First Ride</button>
+                  </thead>
+                  <tbody>
+                    {bookingHistory.map((booking, index) => (
+                      <tr
+                        key={booking.id}
+                        className={`border-b border-neutral-200 ${
+                          index % 2 === 0 ? "bg-neutral-50" : ""
+                        }`}
+                      >
+                        <td className="py-4 px-2 font-medium">{booking.id}</td>
+                        <td className="py-4 px-2">{booking.date}</td>
+                        <td className="py-4 px-2">{booking.bikeType}</td>
+                        <td className="py-4 px-2">
+                          <span
+                            className={`inline-block px-3 py-1 rounded-full text-xs font-medium ${
+                              booking.status === "Completed"
+                                ? "bg-green-100 text-green-800"
+                                : "bg-primary-100 text-primary-800"
+                            }`}
+                          >
+                            {booking.status}
+                          </span>
+                        </td>
+                        <td className="py-4 px-2 font-medium">
+                          ₹{booking.totalAmount.toFixed(2)}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
               </div>
-            )}
-          </motion.div>
+
+              {bookingHistory.length === 0 && (
+                <div className="text-center py-6">
+                  <p className="text-neutral-500">
+                    You haven't made any bookings yet.
+                  </p>
+                  <button className="btn btn-primary mt-4">
+                    Book Your First Ride
+                  </button>
+                </div>
+              )}
+            </motion.div>
+          </div>
         </div>
       </div>
-    </div>
     </>
   );
 };

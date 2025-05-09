@@ -54,11 +54,11 @@ const AdminManageBikes = () => {
         image: "",
         bikeModel: "",
         ratePerDay: "",
-        rating: "",
+        availability: "",
         milage: "",
         optionOne: "",
         optionTwo: "",
-        optionThree: "",
+        description: "",
         bikeCount: "",
       });
     } catch (error) {
@@ -182,13 +182,13 @@ const AdminManageBikes = () => {
 
         <div className="mb-4">
           <label className="block text-gray-700 mb-2" htmlFor="optionThree">
-            Option 3
+            description
           </label>
           <input
             type="text"
             id="optionThree"
             name="optionThree"
-            value={formData.optionThree}
+            value={formData.description}
             onChange={handleChange}
             className="w-full px-3 py-2 border rounded"
           />

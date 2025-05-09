@@ -130,7 +130,7 @@ router.post("/addBike", adminAuthMiddleware, async (req, res) => {
     milage,
     optionOne,
     optionTwo,
-    optionThree,
+    description,
     bikeCount,
   } = req.body;
 
@@ -147,7 +147,7 @@ router.post("/addBike", adminAuthMiddleware, async (req, res) => {
         milage,
         optionOne,
         optionTwo,
-        optionThree,
+        description,
         bikeCount,
       });
 
@@ -260,6 +260,5 @@ router.post("/logout", adminAuthMiddleware, async (req, res) => {
 //     res.status(500).json({ message: "Internal server error" });
 //   }
 // });
-
 
 export default router;
