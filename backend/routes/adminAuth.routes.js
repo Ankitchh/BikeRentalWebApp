@@ -142,7 +142,6 @@ router.post("/addBike", adminAuthMiddleware, async (req, res) => {
         bike: newBike,
       });
     } else {
-      
       const updatedBike = await bikes.findOneAndUpdate(
         { bikeModel },
         { $inc: { bikeCount } }, // Increment bikeCount

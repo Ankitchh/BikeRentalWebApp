@@ -16,11 +16,7 @@ const AdminManageBikes = () => {
     image: "",
     bikeModel: "",
     ratePerDay: "",
-    rating: "",
-    milage: "",
-    optionOne: "",
-    optionTwo: "",
-    optionThree: "",
+    description: "",
     bikeCount: "",
   });
 
@@ -54,10 +50,6 @@ const AdminManageBikes = () => {
         image: "",
         bikeModel: "",
         ratePerDay: "",
-        availability: "",
-        milage: "",
-        optionOne: "",
-        optionTwo: "",
         description: "",
         bikeCount: "",
       });
@@ -121,73 +113,13 @@ const AdminManageBikes = () => {
         </div>
 
         <div className="mb-4">
-          <label className="block text-gray-700 mb-2" htmlFor="rating">
-            Rating (1-5)
-          </label>
-          <input
-            type="number"
-            id="rating"
-            name="rating"
-            min="1"
-            max="5"
-            value={formData.rating}
-            onChange={handleChange}
-            className="w-full px-3 py-2 border rounded"
-            required
-          />
-        </div>
-
-        <div className="mb-4">
-          <label className="block text-gray-700 mb-2" htmlFor="milage">
-            Mileage
-          </label>
-          <input
-            type="text"
-            id="milage"
-            name="milage"
-            value={formData.milage}
-            onChange={handleChange}
-            className="w-full px-3 py-2 border rounded"
-            required
-          />
-        </div>
-
-        <div className="mb-4">
-          <label className="block text-gray-700 mb-2" htmlFor="optionOne">
-            Option 1
-          </label>
-          <input
-            type="text"
-            id="optionOne"
-            name="optionOne"
-            value={formData.optionOne}
-            onChange={handleChange}
-            className="w-full px-3 py-2 border rounded"
-          />
-        </div>
-
-        <div className="mb-4">
-          <label className="block text-gray-700 mb-2" htmlFor="optionTwo">
-            Option 2
-          </label>
-          <input
-            type="text"
-            id="optionTwo"
-            name="optionTwo"
-            value={formData.optionTwo}
-            onChange={handleChange}
-            className="w-full px-3 py-2 border rounded"
-          />
-        </div>
-
-        <div className="mb-4">
-          <label className="block text-gray-700 mb-2" htmlFor="optionThree">
+          <label className="block text-gray-700 mb-2" htmlFor="description">
             description
           </label>
           <input
             type="text"
-            id="optionThree"
-            name="optionThree"
+            id="description"
+            name="description"
             value={formData.description}
             onChange={handleChange}
             className="w-full px-3 py-2 border rounded"
