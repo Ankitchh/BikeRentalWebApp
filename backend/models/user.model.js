@@ -7,6 +7,12 @@ const userSchema = new mongoose.Schema({
     minlength: 3,
     required: true,
   },
+  profilePic: {
+    type: String,
+    trim: true,
+    default:
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT3OSU5lJevV-z9U6DXiELizmuewIDESZCwp6Ik1YcsimUf5v9FsYEDGEkZmS-YTPYayww&usqp=CAU",
+  },
   email: {
     type: String,
     trim: true,

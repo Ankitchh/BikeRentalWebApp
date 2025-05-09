@@ -9,16 +9,19 @@ const reviewSchema = new mongoose.Schema({
     ref: "User",
     required: true,
   },
-  bikeId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Bike",
+  name: {
+    type: String,
+    required: true,
+  },
+  avatar: {
+    type: String,
     required: true,
   },
   rating: {
     type: Number,
     required: true,
   },
-  review: {
+  description: {
     type: String,
     required: true,
   },

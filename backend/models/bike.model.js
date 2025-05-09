@@ -17,25 +17,9 @@ const bikeSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
-  rating: {
-    type: Number,
-    required: true,
-  },
-  milage: {
+  description: {
     type: String,
     required: true,
-  },
-  optionOne: {
-    type: String,
-    default: null,
-  },
-  optionTwo: {
-    type: String,
-    default: null,
-  },
-  optionThree: {
-    type: String,
-    default: null,
   },
   availability: {
     type: Boolean,
@@ -44,7 +28,7 @@ const bikeSchema = new mongoose.Schema({
   bikeCount: {
     type: Number,
     default: null,
-  }
+  },
 });
 
 const Bike = mongoose.model("Bike", bikeSchema);

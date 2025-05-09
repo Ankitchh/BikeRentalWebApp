@@ -1,80 +1,54 @@
-import React, { useEffect, useRef } from 'react';
-import { motion } from 'framer-motion';
-import { Star } from 'lucide-react';
-
-// Sample reviews data
-const reviews = [
-  {
-    id: 1,
-    name: 'Emily Johnson',
-    avatar: 'https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&w=300',
-    rating: 5,
-    text: 'The bikes were in perfect condition and the service was exceptional. We had an amazing day exploring the city!',
-    date: 'June 12, 2024'
-  },
-  {
-    id: 2,
-    name: 'Michael Rodriguez',
-    avatar: 'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=300',
-    rating: 4,
-    text: 'Great experience overall. The booking process was simple and the bikes were comfortable. Would rent again!',
-    date: 'May 28, 2024'
-  },
-  {
-    id: 3,
-    name: 'Sarah Thompson',
-    avatar: 'https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&cs=tinysrgb&w=300',
-    rating: 5,
-    text: 'Absolutely loved the electric bike option. Made getting around the hills so much easier!',
-    date: 'May 15, 2024'
-  },
-  {
-    id: 4,
-    name: 'James Wilson',
-    avatar: 'https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg?auto=compress&cs=tinysrgb&w=300',
-    rating: 5,
-    text: 'The best bike rental service I\'ve used in any city. The staff was friendly and the equipment was top-notch.',
-    date: 'April 30, 2024'
-  },
-  {
-    id: 5,
-    name: 'Olivia Chen',
-    avatar: 'https://images.pexels.com/photos/1239291/pexels-photo-1239291.jpeg?auto=compress&cs=tinysrgb&w=300',
-    rating: 4,
-    text: 'Had a minor issue with my initial bike, but the staff quickly replaced it. Great customer service!',
-    date: 'April 22, 2024'
-  },
-  {
-    id: 6,
-    name: 'Daniel Brown',
-    avatar: 'https://images.pexels.com/photos/1222271/pexels-photo-1222271.jpeg?auto=compress&cs=tinysrgb&w=300',
-    rating: 5,
-    text: 'The city tour package was absolutely worth it! Our guide was knowledgeable and the route was perfect.',
-    date: 'April 10, 2024'
-  },
-];
+import React, { useEffect, useRef, useState } from "react";
+import { motion } from "framer-motion";
+import { Star } from "lucide-react";
+import axios from "axios";
+import dayjs from "dayjs"; // for readable dates
 
 const InfiniteReviews = () => {
   const scrollRef = useRef(null);
-  
-  // Duplicate reviews for infinite scrolling effect
-  const duplicatedReviews = [...reviews, ...reviews];
-  
+  const [reviews, setReviews] = useState([]);
+
+  useEffect(() => {
+    const fetchReviews = async () => {
+      try {
+        const response = await axios.get(
+          `${import.meta.env.VITE_BASE_URL}/data/reviews`
+        );
+        const data = response.data;
+
+        // Optionally filter approved reviews only
+        const approvedReviews = data.filter((r) => r.approved);
+        setReviews(approvedReviews);
+      } catch (err) {
+        console.error("Failed to fetch reviews:", err);
+      }
+    };
+
+    fetchReviews();
+  }, []);
+
   return (
-    <div className="relative overflow-hidden py-10">
+    <div className="relative overflow-hidden py-10 bg-gray-50">
       <div className="container mx-auto px-4">
-        <h2 className="text-3xl font-bold text-center mb-10">What Our Customers Say</h2>
-      </div>
-      
-      <div className="w-full overflow-hidden">
-        <div 
+        <h2 className="text-3xl font-bold text-center mb-10">
+          What Our Customers Say
+        </h2>
+
+        <motion.div
           ref={scrollRef}
-          className="infinite-carousel pb-4"
+          className="flex space-x-6 overflow-x-auto px-2 hide-scrollbar"
+          initial={{ x: 0 }}
+          animate={{ x: ["0%", "-50%"] }}
+          transition={{
+            repeat: Infinity,
+            duration: 30,
+            ease: "linear",
+          }}
         >
-          {duplicatedReviews.map((review, index) => (
-            <ReviewCard key={`${review.id}-${index}`} review={review} />
+          {[...reviews, ...reviews].map((review, index) => (
+            <ReviewCard key={`${review._id}-${index}`} review={review} />
           ))}
-        </div>
+        </motion.div>
       </div>
     </div>
   );
@@ -82,34 +56,39 @@ const InfiniteReviews = () => {
 
 const ReviewCard = ({ review }) => {
   return (
-    <motion.div 
-      whileHover={{ 
+    <motion.div
+      whileHover={{
         y: -10,
-        boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)'
+        boxShadow:
+          "0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
       }}
-      className="flex-shrink-0 w-full md:w-80 p-4"
+      className="flex-shrink-0 w-72 md:w-80 bg-white rounded-xl shadow p-6"
     >
-      <div className="bg-white rounded-xl shadow-md p-6 h-full flex flex-col">
-        <div className="flex items-center mb-4">
-          <img 
-            src={review.avatar} 
-            alt={review.name} 
-            className="w-12 h-12 rounded-full object-cover"
-          />
-          <div className="ml-4">
-            <h4 className="font-medium">{review.name}</h4>
-            <div className="flex mt-1">
-              {[...Array(5)].map((_, i) => (
-                <Star 
-                  key={i}
-                  className={`w-4 h-4 ${i < review.rating ? 'text-yellow-400 fill-yellow-400' : 'text-neutral-300'}`}
-                />
-              ))}
-            </div>
+      <div className="flex items-center mb-4">
+        <img
+          src={review.avatar}
+          alt={review.name}
+          className="w-12 h-12 rounded-full object-cover"
+        />
+        <div className="ml-4">
+          <h4 className="font-medium text-lg">{review.name}</h4>
+          <div className="flex mt-1">
+            {[...Array(5)].map((_, i) => (
+              <Star
+                key={i}
+                className={`w-4 h-4 ${
+                  i < review.rating
+                    ? "text-yellow-400 fill-yellow-400"
+                    : "text-neutral-300"
+                }`}
+              />
+            ))}
           </div>
         </div>
-        <p className="text-neutral-700 flex-grow mb-4">{review.text}</p>
-        <div className="text-neutral-500 text-sm">{review.date}</div>
+      </div>
+      <p className="text-neutral-700 mb-4 line-clamp-3">{review.description}</p>
+      <div className="text-sm text-neutral-400">
+        {dayjs(review.createdAt).format("MMM D, YYYY")}
       </div>
     </motion.div>
   );
