@@ -1,24 +1,27 @@
 import mongoose from "mongoose";
 
-const sessionSchema = new mongoose.Schema({
-  adminId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Admin",
-    required: true,
+const sessionSchema = new mongoose.Schema(
+  {
+    adminId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Admin",
+      required: true,
+    },
+    adminEmail: {
+      type: String,
+      required: true,
+    },
+    loggedInAt: {
+      type: Date,
+      default: Date.now,
+    },
+    loggedOutAt: {
+      type: Date,
+      default: null,
+    },
   },
-  adminEmail: {
-    type: String,
-    required: true,
-  },
-  loggedInAt: {
-    type: Date,
-    default: Date.now,
-  },
-  loggedOutAt: {
-    type: Date,
-    default: null,
-  },
-});
+  { timestamps: true }
+);
 
 const Sessions = mongoose.model("Sessions", sessionSchema);
 
