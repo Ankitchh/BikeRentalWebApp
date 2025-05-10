@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { Send, Star } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
 import { toast } from "react-toastify";
+import axios from "axios";
 
 const StarRating = ({ rating, setRating }) => {
   const [hovered, setHovered] = useState(0);
@@ -37,8 +38,10 @@ const CommentSection = () => {
   const [newComment, setNewComment] = useState("");
   const [rating, setRating] = useState(0);
   const { user, login } = useAuth();
+  const token = localStorage.getItem("token");
+  const userId = localStorage.getItem("userId");
 
-  const handleAddComment = (e) => {
+  const handleAddComment = async (e) => {
     e.preventDefault();
 
     if (!user) {
@@ -47,11 +50,28 @@ const CommentSection = () => {
     }
 
     if (!newComment.trim() || rating < 1 || rating > 5) {
-      toast.error("Please enter a comment and a rating (1–5 stars).");
+      toast.error("Please enter a comment and a rating (1-5 stars).");
       return;
     }
 
-    console.log("Submitted comment:", newComment, "Rating:", rating);
+    try {
+      const res = await axios.post(
+        `${import.meta.env.VITE_BASE_URL}/user/review`,
+        {
+          description: newComment,
+          rating: rating,
+          userId: userId,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+    } catch (error) {
+      console.error("Error adding comment:", error);
+      toast.error("Failed to add comment. Please try again.");
+    }
 
     setNewComment("");
     setRating(0);
@@ -71,8 +91,8 @@ const CommentSection = () => {
           <div className="flex-shrink-0">
             <img
               src={
-                user?.profileImage ||
-                "https://images.pexels.com/photos/1722198/pexels-photo-1722198.jpeg?auto=compress&cs=tinysrgb&w=300"
+                user?.profilePic ||
+                "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT3OSU5lJevV-z9U6DXiELizmuewIDESZCwp6Ik1YcsimUf5v9FsYEDGEkZmS-YTPYayww&usqp=CAU"
               }
               alt="Your avatar"
               className="w-10 h-10 rounded-full object-cover"

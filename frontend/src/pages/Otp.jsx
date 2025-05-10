@@ -3,6 +3,7 @@ import LoadingSpinner from "../components/LoadingSpinner";
 import { Slide, ToastContainer, toast } from "react-toastify";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
 function Otp() {
   const [otp, setOtp] = useState("");
@@ -11,6 +12,7 @@ function Otp() {
   const navigate = useNavigate();
   const userId = localStorage.getItem("userId");
   const email = localStorage.getItem("email");
+  const { login } = useAuth();
 
   setTimeout(() => {
     setIsLoading(false);
@@ -43,6 +45,7 @@ function Otp() {
         toast.success(res.data?.data?.message || "OTP Verified Successfully!");
         localStorage.setItem("token", res.data.token);
         setOtp("");
+        login(res.data.user);
 
         setTimeout(() => {
           setIsLoading(false);

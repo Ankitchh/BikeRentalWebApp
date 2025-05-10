@@ -40,11 +40,10 @@ const Home = () => {
           `${import.meta.env.VITE_BASE_URL}/data/bikes`
         );
         setBikeTypes(res.data);
-        setTimeout(() => {
-          setLoading(false);
-        }, 800);
       } catch (error) {
         console.error("Error fetching bikes:", error);
+      } finally {
+        setTimeout(() => setLoading(false), 800); // Only set it once
       }
     };
     fetchBikes();
@@ -140,7 +139,7 @@ const Home = () => {
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-                {bikeTypes.map((bike,i) => (
+                {bikeTypes.map((bike, i) => (
                   <motion.div
                     key={i}
                     whileHover={{ y: -10 }}

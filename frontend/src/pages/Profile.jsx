@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
-import { motion } from 'framer-motion';
-import { useAuth } from '../context/AuthContext';
-import { Edit2, Check, X, Upload } from 'lucide-react';
-import LoadingSpinner from '../components/LoadingSpinner';
-import Header from '../components/Header';
+import React, { useState } from "react";
+import { motion } from "framer-motion";
+import { useAuth } from "../context/AuthContext";
+import { Edit2, Check, X, Upload } from "lucide-react";
+import LoadingSpinner from "../components/LoadingSpinner";
+import Header from "../components/Header";
 
 const Profile = () => {
   const { user, updateUser, isLoading } = useAuth();
@@ -14,29 +14,29 @@ const Profile = () => {
     address: false,
   });
   const [formData, setFormData] = useState({
-    fullName: '',
-    email: '',
-    phone: '',
-    address: '',
+    fullName: "",
+    email: "",
+    phone: "",
+    address: "",
   });
   const [uploadingImage, setUploadingImage] = useState(false);
-  
+
   // Set initial form data when user data is loaded
   React.useEffect(() => {
     if (user) {
       setFormData({
-        fullName: user.fullName || '',
-        email: user.email || '',
-        phone: user.phone || '',
-        address: user.address || '',
+        fullName: user.fullName || "",
+        email: user.email || "",
+        phone: user.phoneNumber || "",
+        address: user.address || "",
       });
     }
   }, [user]);
-  
+
   if (isLoading) {
     return <LoadingSpinner />;
   }
-  
+
   if (!user) {
     return (
       <div className="min-h-screen pt-20 flex items-center justify-center bg-neutral-50">
@@ -45,8 +45,8 @@ const Profile = () => {
           <p className="text-neutral-600 mb-6">
             You need to be logged in to view your profile.
           </p>
-          <button 
-            onClick={() => window.location.href = '/'}
+          <button
+            onClick={() => (window.location.href = "/")}
             className="btn btn-primary"
           >
             Return to Home
@@ -55,64 +55,72 @@ const Profile = () => {
       </div>
     );
   }
-  
+
   // Toggle edit mode for a field
   const toggleEditMode = (field) => {
-    setEditMode(prev => ({
+    setEditMode((prev) => ({
       ...prev,
-      [field]: !prev[field]
+      [field]: !prev[field],
     }));
-    
+
     // Reset form data for this field if canceling edit
     if (editMode[field]) {
-      setFormData(prev => ({
+      setFormData((prev) => ({
         ...prev,
-        [field]: user[field] || ''
+        [field]: user[field] || "",
       }));
     }
   };
-  
+
   // Handle form input changes
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [name]: value
+      [name]: value,
     }));
   };
-  
+
   // Save changes for a field
   const saveField = (field) => {
     // Validate email format
-    if (field === 'email' && formData.email && !/\S+@\S+\.\S+/.test(formData.email)) {
-      alert('Please enter a valid email address');
+    if (
+      field === "email" &&
+      formData.email &&
+      !/\S+@\S+\.\S+/.test(formData.email)
+    ) {
+      alert("Please enter a valid email address");
       return;
     }
-    
+
     // Validate phone format
-    if (field === 'phone' && formData.phone && !/^\+?[0-9\s\-()]{8,20}$/.test(formData.phone)) {
-      alert('Please enter a valid phone number');
+    if (
+      field === "phone" &&
+      formData.phone &&
+      !/^\+?[0-9\s\-()]{8,20}$/.test(formData.phone)
+    ) {
+      alert("Please enter a valid phone number");
       return;
     }
-    
+
     updateUser({ [field]: formData[field] });
     toggleEditMode(field);
   };
-  
+
   // Handle profile image upload
   const handleImageUpload = (e) => {
     const file = e.target.files[0];
     if (!file) return;
-    
+
     // Check file type
-    if (!file.type.match('image.*')) {
-      alert('Please select an image file');
+    if (!file.type.match("image.*")) {
+      alert("Please select an image file");
       return;
     }
-    
+
     // Mock upload process (in a real app, you'd upload to a server)
     setUploadingImage(true);
-    
+
     const reader = new FileReader();
     reader.onload = (e) => {
       setTimeout(() => {
@@ -122,32 +130,32 @@ const Profile = () => {
     };
     reader.readAsDataURL(file);
   };
-  
+
   // Booking history (mock data - would come from API in real app)
   const bookingHistory = [
     {
-      id: 'ECO-123456',
-      date: '2024-08-15',
-      bikeType: 'City Cruiser',
-      status: 'Completed',
-      totalAmount: 75.00,
+      id: "ECO-123456",
+      date: "2024-08-15",
+      bikeType: "City Cruiser",
+      status: "Completed",
+      totalAmount: 75.0,
     },
     {
-      id: 'ECO-789012',
-      date: '2024-07-22',
-      bikeType: 'Electric Bike',
-      status: 'Completed',
-      totalAmount: 120.00,
+      id: "ECO-789012",
+      date: "2024-07-22",
+      bikeType: "Electric Bike",
+      status: "Completed",
+      totalAmount: 120.0,
     },
     {
-      id: 'ECO-345678',
-      date: '2024-09-03',
-      bikeType: 'Mountain Bike',
-      status: 'Upcoming',
-      totalAmount: 90.00,
+      id: "ECO-345678",
+      date: "2024-09-03",
+      bikeType: "Mountain Bike",
+      status: "Upcoming",
+      totalAmount: 90.0,
     },
   ];
-  
+
   return (
     <>
       <Header />
@@ -167,7 +175,7 @@ const Profile = () => {
                 <div className="md:w-1/3 flex flex-col items-center">
                   <div className="relative group">
                     <img
-                      src={user.profileImage}
+                      src={user.profilePic}
                       alt={user.fullName}
                       className="w-40 h-40 rounded-full object-cover border-4 border-primary-200"
                     />
