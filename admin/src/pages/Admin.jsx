@@ -14,7 +14,7 @@ import UpdateAdmin from "../components/admin/UpdateAdmin";
 
 const Admin = () => {
   return (
-    <div className="w-full h-auto pb-20 flex bg-[#97c2df]">
+    <div className="w-full h-auto pb-20 flex bg-gray-200">
       <AdminNav />
       <Routes>
         {/* All routes here are relative to /admin */}
