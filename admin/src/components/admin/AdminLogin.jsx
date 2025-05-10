@@ -9,7 +9,7 @@ const AdminLogin = () => {
   
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
-
+const { setAdminData } = useAdmin();
   const submitHandler = async (e) => {
     e.preventDefault();
     try {
@@ -19,8 +19,7 @@ const AdminLogin = () => {
         data
       );
       
-      // setAdminData(response.data);
-      console.log(response);
+      setAdminData(response.data.admin);
       const adminToken = response.data.token;
       localStorage.setItem("adminToken", adminToken);
      

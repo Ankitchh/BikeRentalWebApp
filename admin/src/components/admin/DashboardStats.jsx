@@ -73,7 +73,7 @@ const DashboardStats = () => {
   return (
     <>
       <div className="flex flex-col w-[78wv] ml-[20vw]">
-        <div className="w-[78vw] bg-[#82b1d0]   mt-5 shadow-xl shadow-[#82b1d0]/50 h-40 px-10 py-3  flex justify-between items-center">
+        <div className="w-[78vw] bg-gray-300   mt-5 shadow-xl shadow-gray-300/50 h-40 px-10 py-3  flex justify-between items-center">
           <div className="flex w-2xl justify-between">
             <CircularProgress
               avail={189}
@@ -99,8 +99,7 @@ const DashboardStats = () => {
               label="Pending Bookings Approvals"
               value={400}
             />
-            {console.log(adminData?.adminName)}
-            
+            <h1>{adminData?.adminName}</h1>
           </div>
 
           <div className="w-25 h-25 rounded-full bg-gray-500 p-2">
@@ -113,7 +112,7 @@ const DashboardStats = () => {
             </svg>
           </div>
         </div>
-        <div className="flex gap-5 flex-wrap">
+        <div className=" mt-20 flex gap-5 justify-center flex-wrap">
           <Revinue />
           <RegUser />
           <TotalBookings />
