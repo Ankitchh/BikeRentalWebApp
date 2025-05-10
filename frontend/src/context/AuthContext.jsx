@@ -1,4 +1,4 @@
-import React, { createContext, useState, useContext, useEffect } from 'react';
+import React, { createContext, useState, useContext, useEffect } from "react";
 
 // Create context
 const AuthContext = createContext();
@@ -20,7 +20,7 @@ export const AuthProvider = ({ children }) => {
 
   // Simulate authentication check on load
   useEffect(() => {
-    const storedUser = localStorage.getItem('ecoRideUser');
+    const storedUser = localStorage.getItem("ecoRideUser");
     if (storedUser) {
       setUser(JSON.parse(storedUser));
     }
@@ -28,26 +28,28 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   // Login function - typically would call an API
-  const login = () => {
-    setUser(sampleUser);
-    localStorage.setItem('ecoRideUser', JSON.stringify(sampleUser));
+  const login = (data) => {
+    setUser(data);
+    localStorage.setItem("ecoRideUser", JSON.stringify(data));
   };
 
   // Logout function
   const logout = () => {
     setUser(null);
-    localStorage.removeItem('ecoRideUser');
+    localStorage.removeItem("ecoRideUser");
   };
 
   // Update user information
   const updateUser = (updatedInfo) => {
     const updatedUser = { ...user, ...updatedInfo };
     setUser(updatedUser);
-    localStorage.setItem('ecoRideUser', JSON.stringify(updatedUser));
+    localStorage.setItem("ecoRideUser", JSON.stringify(updatedUser));
   };
 
   return (
-    <AuthContext.Provider value={{ user, isLoading, login, logout, updateUser }}>
+    <AuthContext.Provider
+      value={{ user, isLoading, login, logout, updateUser }}
+    >
       {children}
     </AuthContext.Provider>
   );
@@ -57,7 +59,7 @@ export const AuthProvider = ({ children }) => {
 export const useAuth = () => {
   const context = useContext(AuthContext);
   if (!context) {
-    throw new Error('useAuth must be used within an AuthProvider');
+    throw new Error("useAuth must be used within an AuthProvider");
   }
   return context;
 };

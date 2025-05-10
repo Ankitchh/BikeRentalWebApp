@@ -39,7 +39,7 @@ function Login() {
       setEmail("");
       setFullName("");
       setTimeout(() => setIsLoading(false), 800);
-      setTimeout(() => navigate("/otp"), 800);
+      setTimeout(() => navigate("/login/otp"), 800);
     } catch (error) {
       console.error("Error handelSubmit", error);
       toast.error("Error Logging !");

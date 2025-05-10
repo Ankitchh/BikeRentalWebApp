@@ -3,7 +3,6 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { useAuth } from "../context/AuthContext";
 import { Bike, Menu, X, User, LogOut } from "lucide-react";
-import axios from "axios";
 import LoadingSpinner from "./LoadingSpinner";
 
 const Header = () => {
@@ -11,7 +10,7 @@ const Header = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [profileMenuOpen, setProfileMenuOpen] = useState(false);
   const [loading, setloading] = useState(false);
-  const { user,logout } = useAuth();
+  const { user, logout } = useAuth();
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -103,7 +102,7 @@ const Header = () => {
                       className="flex items-center focus:outline-none"
                     >
                       <img
-                        src={user.profileImage}
+                        src={user.profilePic}
                         alt={user.fullName}
                         className="w-8 h-8 rounded-full object-cover border-2 border-primary-300"
                       />
@@ -164,7 +163,7 @@ const Header = () => {
               <div className="md:hidden flex items-center">
                 {user && (
                   <img
-                    src={user.profileImage}
+                    src={user.profilePic}
                     alt={user.fullName}
                     onClick={toggleProfileMenu}
                     className="w-8 h-8 rounded-full object-cover border-2 border-primary-300 mr-4 cursor-pointer"
@@ -173,7 +172,7 @@ const Header = () => {
                 <button
                   onClick={toggleMobileMenu}
                   className={`p-2 rounded-lg focus:outline-none ${
-                    isScrolled ? "text-neutral-800" : "text-white"
+                    isScrolled ? "text-neutral-800" : "text-gray-700"
                   }`}
                 >
                   {mobileMenuOpen ? (
@@ -208,7 +207,10 @@ const Header = () => {
                     </MobileNavLink>
                     {!user ? (
                       <button
-                        onClick={login}
+                        onClick={() => {
+                          loginHandler();
+                          toggleMobileMenu();
+                        }}
                         className="btn btn-primary w-full mt-2"
                       >
                         Sign In
@@ -254,7 +256,10 @@ const Header = () => {
                       }}
                       className="flex items-center py-2 text-neutral-700"
                     >
-                      <LogOut onClick={logoutHandler} className="w-4 h-4 mr-2" />
+                      <LogOut
+                        onClick={logoutHandler}
+                        className="w-4 h-4 mr-2"
+                      />
                       Logout
                     </button>
                   </div>

@@ -172,20 +172,73 @@ router.post("/addBike", adminAuthMiddleware, async (req, res) => {
         message: "Bike added successfully",
         bike: newBike,
       });
-    } else {
-      const updatedBike = await bikes.findOneAndUpdate(
-        { bikeModel },
-        { $inc: { bikeCount } }, // Increment bikeCount
-        { new: true }
-      );
-
-      return res.status(200).json({
-        message: "Bike count updated",
-        bike: updatedBike,
-      });
     }
   } catch (error) {
     console.error("Error in /addBike:", error);
+    return res.status(500).json({ message: "Internal server error" });
+  }
+});
+
+// Update the bike
+
+router.put("/updateBike/:id", adminAuthMiddleware, async (req, res) => {
+  const { id } = req.params;
+  const { image, bikeModel, ratePerDay, description, bikeCount } = req.body;
+
+  try {
+    // check if the bike is valid
+
+    const bike = await bikes.findById(id);
+
+    if (!bike) {
+      return res.status(401).json({ message: "Invalid bike" });
+    }
+
+    // update the bike
+
+    const updatedBike = await bikes.findByIdAndUpdate(
+      id,
+      {
+        image,
+        bikeModel,
+        ratePerDay,
+        description,
+        bikeCount,
+      },
+      { new: true }
+    );
+
+    res.status(200).json({
+      message: "Bike updated successfully",
+      bike: updatedBike,
+    });
+  } catch (error) {
+    console.error("Error in /updateBike:", error);
+    return res.status(500).json({ message: "Internal server error" });
+  }
+});
+
+// Delete the bike
+
+router.delete("/deleteBike/:id", adminAuthMiddleware, async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    // check if the bike is valid
+
+    const bike = await bikes.findById(id);
+
+    if (!bike) {
+      return res.status(401).json({ message: "Invalid bike" });
+    }
+
+    // delete the bike
+
+    await bikes.findByIdAndDelete(id);
+
+    res.status(200).json({ message: "Bike deleted successfully" });
+  } catch (error) {
+    console.error("Error in /deleteBike:", error);
     return res.status(500).json({ message: "Internal server error" });
   }
 });
@@ -241,6 +294,73 @@ router.post("/addAccessories", adminAuthMiddleware, async (req, res) => {
     return res.status(500).json({ message: "Internal server error" });
   }
 });
+
+// Update the accessories
+
+router.put("/updateAccessories/:id", adminAuthMiddleware, async (req, res) => {
+  const { id } = req.params;
+  const { image, accessorieName, ratePerDay, description, accessorieCount } =
+    req.body;
+
+  try {
+    // check if the accessorie is valid
+
+    const accessorie = await Accessories.findById(id);
+
+    if (!accessorie) {
+      return res.status(401).json({ message: "Invalid accessorie" });
+    }
+
+    // update the accessorie
+
+    const updatedAccessorie = await Accessories.findByIdAndUpdate(
+      id,
+      {
+        image,
+        accessorieName,
+        ratePerDay,
+        description,
+        accessorieCount,
+      },
+      { new: true }
+    );
+
+    res.status(200).json({
+      message: "Accessorie updated successfully",
+      accessorie: updatedAccessorie,
+    });
+  } catch (error) {
+    console.error("Error in /updateAccessories:", error);
+    return res.status(500).json({ message: "Internal server error" });
+  }
+});
+
+// Delete the accessorie
+
+router.delete("/deleteAccessories/:id", adminAuthMiddleware, async (req, res) => {
+
+  const { id } = req.params;
+
+  try {
+    // check if the accessorie is valid
+
+    const accessorie = await Accessories.findById(id);
+
+    if (!accessorie) {
+      return res.status(401).json({ message: "Invalid accessorie" });
+    }
+
+    // delete the accessorie
+
+    await Accessories.findByIdAndDelete(id);
+
+    res.status(200).json({ message: "Accessorie deleted successfully" });
+  } catch (error) {
+    console.error("Error in /deleteAccessories:", error);
+    return res.status(500).json({ message: "Internal server error" });
+  }
+
+})
 
 // terms and conditions
 
