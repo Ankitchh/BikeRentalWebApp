@@ -29,7 +29,7 @@ const bikeSchema = new mongoose.Schema({
     type: Number,
     default: null,
   },
-});
+}, { timestamps: true });
 
 const Bike = mongoose.model("Bike", bikeSchema);
 
