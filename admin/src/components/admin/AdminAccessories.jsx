@@ -10,15 +10,17 @@ const AdminAccessories = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const [showForm, setShowForm] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [selectedItem, setSelectedItem] = useState({
-    id: null,
-    name: "",
-    price: "",
-    stock: "",
+    _id: null,
     image: "https://via.placeholder.com/300x200?text=Accessory+Image",
+    accessorieName: "",
+    ratePerDay: "",
+    description: "",
+    accessorieCount: "",
   });
 
   // Fetch accessories data
@@ -43,13 +45,16 @@ const AdminAccessories = () => {
     };
 
     fetchAccessories();
-  }, [adminToken]);
+  }, [adminToken, success]);
 
   const handleCardClick = (item) => {
     setSelectedItem({
-      ...item,
-      price: item.price.toString(), // Convert to string for input field
-      stock: item.stock.toString(),
+      _id: item._id,
+      image: item.image,
+      accessorieName: item.accessorieName,
+      ratePerDay: item.ratePerDay.toString(),
+      description: item.description,
+      accessorieCount: item.accessorieCount.toString(),
     });
     setIsEditing(true);
     setShowForm(true);
@@ -57,11 +62,12 @@ const AdminAccessories = () => {
 
   const handleAddClick = () => {
     setSelectedItem({
-      id: null,
-      name: "",
-      price: "",
-      stock: "",
+      _id: null,
       image: "https://via.placeholder.com/300x200?text=Accessory+Image",
+      accessorieName: "",
+      ratePerDay: "",
+      description: "",
+      accessorieCount: "",
     });
     setIsEditing(false);
     setShowForm(true);
@@ -90,19 +96,22 @@ const AdminAccessories = () => {
     e.preventDefault();
     setError("");
     setSuccess("");
+    setIsSubmitting(true);
 
     try {
       const payload = {
-        ...selectedItem,
-        price: parseFloat(selectedItem.price),
-        stock: parseInt(selectedItem.stock),
+        image: selectedItem.image,
+        accessorieName: selectedItem.accessorieName,
+        ratePerDay: parseFloat(selectedItem.ratePerDay),
+        description: selectedItem.description,
+        accessorieCount: parseInt(selectedItem.accessorieCount),
       };
 
       if (isEditing) {
         // Update existing accessory
-        await axios.put(
-          `${import.meta.env.VITE_BASE_URL}/admin/accessories/${
-            selectedItem.id
+        const response = await axios.put(
+          `${import.meta.env.VITE_BASE_URL}/admin/updateAccessories/${
+            selectedItem._id
           }`,
           payload,
           {
@@ -113,7 +122,9 @@ const AdminAccessories = () => {
           }
         );
         setData((prev) =>
-          prev.map((item) => (item.id === selectedItem.id ? payload : item))
+          prev.map((item) =>
+            item._id === selectedItem._id ? response.data.accessorie : item
+          )
         );
         setSuccess("Accessory updated successfully!");
       } else {
@@ -128,7 +139,7 @@ const AdminAccessories = () => {
             },
           }
         );
-        setData((prev) => [...prev, response.data]);
+        setData((prev) => [...prev, response.data.accessorie]);
         setSuccess("Accessory added successfully!");
       }
 
@@ -136,20 +147,24 @@ const AdminAccessories = () => {
     } catch (error) {
       console.error("Error saving accessory:", error);
       setError(error.response?.data?.message || "Failed to save accessory");
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
   const handleDelete = async () => {
     try {
       await axios.delete(
-        `${import.meta.env.VITE_BASE_URL}/admin/accessories/${selectedItem.id}`,
+        `${import.meta.env.VITE_BASE_URL}/admin/deleteAccessories/${
+          selectedItem._id
+        }`,
         {
           headers: {
             Authorization: `Bearer ${adminToken}`,
           },
         }
       );
-      setData((prev) => prev.filter((item) => item.id !== selectedItem.id));
+      setData((prev) => prev.filter((item) => item._id !== selectedItem._id));
       setSuccess("Accessory deleted successfully!");
       setShowForm(false);
     } catch (error) {
@@ -243,38 +258,38 @@ const AdminAccessories = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {data.map((item) => (
             <div
-              key={item.id}
+              key={item._id}
               onClick={() => handleCardClick(item)}
               className="cursor-pointer border rounded-lg shadow-md hover:shadow-lg bg-white transition duration-200 overflow-hidden group"
             >
               <div className="relative h-48 overflow-hidden">
                 <img
                   src={item.image}
-                  alt={item.name}
+                  alt={item.accessorieName}
                   className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
                 <div className="absolute bottom-0 left-0 p-4">
                   <h2 className="text-xl font-semibold text-white">
-                    {item.name}
+                    {item.accessorieName}
                   </h2>
                 </div>
               </div>
               <div className="p-4">
                 <div className="flex justify-between items-center mb-2">
-                  <span className="text-gray-700">Price:</span>
-                  <span className="font-medium">₹{item.price}</span>
+                  <span className="text-gray-700">Rate/Day:</span>
+                  <span className="font-medium">₹{item.ratePerDay}</span>
                 </div>
                 <div className="flex justify-between items-center">
                   <span className="text-gray-700">Stock:</span>
                   <span
                     className={`px-2 py-1 rounded-full text-xs font-medium ${
-                      item.stock > 5
+                      item.accessorieCount > 5
                         ? "bg-green-100 text-green-800"
                         : "bg-red-100 text-red-800"
                     }`}
                   >
-                    {item.stock} available
+                    {item.accessorieCount} available
                   </span>
                 </div>
               </div>
@@ -287,9 +302,9 @@ const AdminAccessories = () => {
       {showForm && (
         <div className="fixed inset-0 z-50 overflow-y-auto">
           <div className="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
-            {/* Background overlay with blur */}
+            {/* Background overlay */}
             <div
-              
+              // className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"
               aria-hidden="true"
               onClick={() => setShowForm(false)}
             ></div>
@@ -327,12 +342,12 @@ const AdminAccessories = () => {
                   {/* Name Field */}
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">
-                      Name
+                      Accessory Name
                     </label>
                     <input
                       type="text"
-                      name="name"
-                      value={selectedItem.name}
+                      name="accessorieName"
+                      value={selectedItem.accessorieName}
                       onChange={handleFormChange}
                       placeholder="Accessory name"
                       className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
@@ -340,17 +355,17 @@ const AdminAccessories = () => {
                     />
                   </div>
 
-                  {/* Price Field */}
+                  {/* Rate Per Day Field */}
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">
-                      Price (₹)
+                      Rate Per Day (₹)
                     </label>
                     <input
                       type="number"
-                      name="price"
-                      value={selectedItem.price}
+                      name="ratePerDay"
+                      value={selectedItem.ratePerDay}
                       onChange={handleFormChange}
-                      placeholder="Price"
+                      placeholder="Rate per day"
                       min="0"
                       step="0.01"
                       className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
@@ -361,12 +376,12 @@ const AdminAccessories = () => {
                   {/* Stock Field */}
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">
-                      Stock
+                      Stock Count
                     </label>
                     <input
                       type="number"
-                      name="stock"
-                      value={selectedItem.stock}
+                      name="accessorieCount"
+                      value={selectedItem.accessorieCount}
                       onChange={handleFormChange}
                       placeholder="Stock quantity"
                       min="0"
@@ -375,13 +390,60 @@ const AdminAccessories = () => {
                     />
                   </div>
 
+                  {/* Description Field */}
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      Description
+                    </label>
+                    <textarea
+                      name="description"
+                      value={selectedItem.description}
+                      onChange={handleFormChange}
+                      rows="3"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+                      placeholder="Accessory description"
+                    />
+                  </div>
+
                   {/* Form Actions */}
                   <div className="mt-5 sm:mt-6 sm:grid sm:grid-cols-2 sm:gap-3 sm:grid-flow-row-dense">
                     <button
                       type="submit"
-                      className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:col-start-2 sm:text-sm"
+                      disabled={isSubmitting}
+                      className={`w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:col-start-2 sm:text-sm ${
+                        isSubmitting ? "opacity-75 cursor-not-allowed" : ""
+                      }`}
                     >
-                      {isEditing ? "Update" : "Add"} Accessory
+                      {isSubmitting ? (
+                        <>
+                          <svg
+                            className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                          >
+                            <circle
+                              className="opacity-25"
+                              cx="12"
+                              cy="12"
+                              r="10"
+                              stroke="currentColor"
+                              strokeWidth="4"
+                            ></circle>
+                            <path
+                              className="opacity-75"
+                              fill="currentColor"
+                              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                            ></path>
+                          </svg>
+                          Processing...
+                        </>
+                      ) : isEditing ? (
+                        "Update"
+                      ) : (
+                        "Add"
+                      )}{" "}
+                      Accessory
                     </button>
                     {isEditing && (
                       <button

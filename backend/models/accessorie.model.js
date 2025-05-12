@@ -6,7 +6,9 @@ const accessorieSchema = new mongoose.Schema(
   {
     image: {
       type: String,
-      required: true,
+      // required: true,
+      default:
+        "https://images.unsplash.com/photo-1609174470568-ac0c96458a67?w=500&auto=format",
     },
     accessorieName: {
       type: String,

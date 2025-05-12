@@ -32,25 +32,25 @@ const AdminManageBikes = () => {
   const [selectedBike, setSelectedBike] = useState(null);
 
   // Fetch bikes data
-useEffect(() => {
-  const fetchBikes = async () => {
-    try {
-      const response = await axios.get(
-        `${import.meta.env.VITE_BASE_URL}/data/bikes`
-      );
-      // Ensure response.data is an array
-      setData(Array.isArray(response.data) ? response.data : []);
-    } catch (error) {
-      console.error("Error fetching bikes:", error);
-      setError("Failed to fetch bikes data");
-      setData([]); // Set to empty array on error
-    } finally {
-      setIsLoading(false);
-    }
-  };
+  useEffect(() => {
+    const fetchBikes = async () => {
+      try {
+        const response = await axios.get(
+          `${import.meta.env.VITE_BASE_URL}/data/bikes`
+        );
+        setData(Array.isArray(response.data) ? response.data : []);
+      } catch (error) {
+        console.error("Error fetching bikes:", error);
+        setError("Failed to fetch bikes data");
+        setData([]);
+      } finally {
+        setIsLoading(false);
+      }
+    };
 
-  fetchBikes();
-}, [adminToken]);
+    fetchBikes();
+  }, [adminToken, success]);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
@@ -122,8 +122,8 @@ useEffect(() => {
     setError("");
     setIsSubmitting(true);
     try {
-      const response = await axios.post(
-        `${import.meta.env.VITE_BASE_URL}/admin/addBike`,
+      const response = await axios.put(
+        `${import.meta.env.VITE_BASE_URL}/admin/updateBike/${selectedBike._id}`,
         selectedBike,
         {
           headers: {
@@ -133,26 +133,25 @@ useEffect(() => {
         }
       );
 
-      setData(({
-        image: "",
-        bikeModel: "",
-        ratePerDay: "",
-        description: "",
-        bikeCount: "",
-      }));
+      setData((prev) =>
+        prev.map((bike) =>
+          bike._id === selectedBike._id ? response.data.bike : bike
+        )
+      );
       setSuccess("Bike updated successfully!");
       setShowForm(false);
-      
     } catch (error) {
       console.error("Error updating bike:", error);
       setError(error.response?.data?.message || "Failed to update bike");
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
   const confirmDelete = async () => {
     try {
       await axios.delete(
-        `${import.meta.env.VITE_BASE_URL}/data/bikes`,
+        `${import.meta.env.VITE_BASE_URL}/admin/deleteBike/${selectedBike._id}`,
         {
           headers: {
             Authorization: `Bearer ${adminToken}`,
@@ -160,7 +159,7 @@ useEffect(() => {
         }
       );
 
-      setData((prev) => prev.filter((item) => item.bikeModel !== selectedBike.bikeModel));
+      setData((prev) => prev.filter((item) => item._id !== selectedBike._id));
       setSuccess("Bike deleted successfully!");
       setShowConfirm(false);
     } catch (error) {
@@ -181,7 +180,7 @@ useEffect(() => {
 
   return (
     <div className="container mx-auto p-6 w-[78vw] ml-[20vw]">
-      <BikeGraph/>
+      <BikeGraph />
       <div className="flex justify-between items-center mb-8">
         <h1 className="text-3xl font-bold text-gray-800">Bike Management</h1>
       </div>
@@ -394,7 +393,7 @@ useEffect(() => {
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
                 {data.map((bike) => (
-                  <tr key={bike.id} className="hover:bg-gray-50">
+                  <tr key={bike._id} className="hover:bg-gray-50">
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="text-sm font-medium text-gray-900">
                         {bike.bikeModel}
@@ -404,7 +403,7 @@ useEffect(() => {
                       {bike.image ? (
                         <img
                           src={bike.image}
-                          alt={bike.model}
+                          alt={bike.bikeModel}
                           className="h-10 w-10 rounded-full object-cover"
                         />
                       ) : (
@@ -471,7 +470,7 @@ useEffect(() => {
       </div>
 
       {/* Update Bike Modal */}
-      {showForm && (
+      {showForm && selectedBike && (
         <div className="fixed inset-0 z-50 overflow-y-auto">
           <div className="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
             <span
@@ -507,7 +506,7 @@ useEffect(() => {
                     </label>
                     <input
                       type="text"
-                      name="model"
+                      name="bikeModel"
                       value={selectedBike.bikeModel}
                       onChange={handleFormChange}
                       className="w-full px-4 py-2 border border-gray-300 rounded-md"
@@ -563,14 +562,19 @@ useEffect(() => {
                   <div className="mt-5 sm:mt-6 sm:grid sm:grid-cols-2 sm:gap-3 sm:grid-flow-row-dense">
                     <button
                       type="submit"
-                      className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:col-start-2 sm:text-sm"
+                      disabled={isSubmitting}
+                      className={`w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 text-base font-medium text-white sm:col-start-2 sm:text-sm ${
+                        isSubmitting
+                          ? "bg-blue-400"
+                          : "bg-blue-600 hover:bg-blue-700"
+                      }`}
                     >
-                      Save Changes
+                      {isSubmitting ? "Saving..." : "Save Changes"}
                     </button>
                     <button
                       type="button"
                       onClick={() => setShowForm(false)}
-                      className="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:mt-0 sm:col-start-1 sm:text-sm"
+                      className="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 sm:mt-0 sm:col-start-1 sm:text-sm"
                     >
                       Cancel
                     </button>
@@ -583,7 +587,7 @@ useEffect(() => {
       )}
 
       {/* Delete Confirmation Modal */}
-      {showConfirm && (
+      {showConfirm && selectedBike && (
         <div className="fixed inset-0 z-50 overflow-y-auto">
           <div className="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
             <span
@@ -621,7 +625,7 @@ useEffect(() => {
                       <p className="text-sm text-gray-500">
                         Are you sure you want to delete{" "}
                         <span className="font-semibold">
-                          {selectedBike.model}
+                          {selectedBike.bikeModel}
                         </span>
                         ? This action cannot be undone.
                       </p>
