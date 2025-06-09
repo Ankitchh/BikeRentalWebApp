@@ -306,6 +306,7 @@ const NavLink = ({ to, children, isScrolled }) => {
   );
 };
 
+
 // Mobile Nav Link Component
 const MobileNavLink = ({ to, onClick, children }) => {
   const location = useLocation();
