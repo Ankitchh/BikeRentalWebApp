@@ -20,42 +20,30 @@ const Header = () => {
       navigate("/login");
     }, 1000);
   };
-  const logoutHandler = () => {
-    logout();
-  };
 
-  // Close mobile menu when navigating
+  const logoutHandler = () => logout();
+
   useEffect(() => {
     setMobileMenuOpen(false);
   }, [location.pathname]);
 
-  // Change header style on scroll
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 50) {
-        setIsScrolled(true);
-      } else {
-        setIsScrolled(false);
-      }
+      setIsScrolled(window.scrollY > 50);
     };
-
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   const headerClass = isScrolled
     ? "bg-white shadow-md py-3"
-    : "bg-transparent py-5 ";
+    : "bg-black/80 backdrop-blur-md py-5";
 
-  const logoTextClass = isScrolled ? "text-primary-600" : "text-slate-500";
+  const logoTextClass = isScrolled ? "text-primary-600" : "text-white";
 
-  const toggleMobileMenu = () => {
-    setMobileMenuOpen(!mobileMenuOpen);
-  };
-
+  const toggleMobileMenu = () => setMobileMenuOpen(!mobileMenuOpen);
   const toggleProfileMenu = () => {
     setProfileMenuOpen(!profileMenuOpen);
-    // Close mobile menu if open when profile menu is toggled
     if (mobileMenuOpen) setMobileMenuOpen(false);
   };
 
@@ -65,12 +53,12 @@ const Header = () => {
         <LoadingSpinner />
       ) : (
         <header
-          className={`fixed w-full z-50 transition-all duration-300  ${headerClass}`}
+          className={`fixed w-full z-50 transition-all duration-300 ${headerClass}`}
         >
           <div className="container mx-auto px-4 md:px-6">
             <div className="flex items-center justify-between">
               {/* Logo */}
-              <Link to="/" className="flex items-center ">
+              <Link to="/" className="flex items-center">
                 <motion.div
                   whileHover={{ scale: 1.05 }}
                   className="flex items-center"
@@ -85,7 +73,7 @@ const Header = () => {
               </Link>
 
               {/* Desktop Navigation */}
-              <nav className="hidden md:flex space-x-8 text-slate-500">
+              <nav className="hidden md:flex space-x-8">
                 <NavLink to="/" isScrolled={isScrolled}>
                   Home
                 </NavLink>
@@ -95,6 +83,7 @@ const Header = () => {
                 <NavLink to="/accessories" isScrolled={isScrolled}>
                   Accessories
                 </NavLink>
+
                 {user ? (
                   <div className="relative">
                     <button
@@ -108,7 +97,7 @@ const Header = () => {
                       />
                       <span
                         className={`ml-2 ${
-                          isScrolled ? "text-neutral-700" : "text-slate-500"
+                          isScrolled ? "text-neutral-700" : "text-white"
                         }`}
                       >
                         {user.fullName.split(" ")[0]}
@@ -128,8 +117,7 @@ const Header = () => {
                             className="block px-4 py-2 text-neutral-700 hover:bg-primary-50"
                           >
                             <div className="flex items-center">
-                              <User className="w-4 h-4 mr-2" />
-                              Profile
+                              <User className="w-4 h-4 mr-2" /> Profile
                             </div>
                           </Link>
                           <button
@@ -137,8 +125,7 @@ const Header = () => {
                             className="block w-full text-left px-4 py-2 text-neutral-700 hover:bg-primary-50"
                           >
                             <div className="flex items-center">
-                              <LogOut className="w-4 h-4 mr-2" />
-                              Logout
+                              <LogOut className="w-4 h-4 mr-2" /> Logout
                             </div>
                           </button>
                         </motion.div>
@@ -172,7 +159,7 @@ const Header = () => {
                 <button
                   onClick={toggleMobileMenu}
                   className={`p-2 rounded-lg focus:outline-none ${
-                    isScrolled ? "text-neutral-800" : "text-gray-700"
+                    isScrolled ? "text-neutral-800" : "text-white"
                   }`}
                 >
                   {mobileMenuOpen ? (
@@ -224,8 +211,7 @@ const Header = () => {
                           onClick={logout}
                           className="flex items-center py-2 text-neutral-700"
                         >
-                          <LogOut className="w-4 h-4 mr-2" />
-                          Logout
+                          <LogOut className="w-4 h-4 mr-2" /> Logout
                         </button>
                       </>
                     )}
@@ -256,11 +242,7 @@ const Header = () => {
                       }}
                       className="flex items-center py-2 text-neutral-700"
                     >
-                      <LogOut
-                        onClick={logoutHandler}
-                        className="w-4 h-4 mr-2"
-                      />
-                      Logout
+                      <LogOut className="w-4 h-4 mr-2" /> Logout
                     </button>
                   </div>
                 </div>
@@ -273,7 +255,7 @@ const Header = () => {
   );
 };
 
-// Desktop Nav Link Component
+// Desktop Nav Link
 const NavLink = ({ to, children, isScrolled }) => {
   const location = useLocation();
   const isActive = location.pathname === to;
@@ -285,8 +267,8 @@ const NavLink = ({ to, children, isScrolled }) => {
       ? "text-primary-600"
       : "text-neutral-700 hover:text-primary-600"
     : isActive
-    ? "text-slate-500"
-    : "text-slate-500/80 hover:text-slate-500";
+    ? "text-white"
+    : "text-white/80 hover:text-white";
 
   return (
     <Link to={to} className={`${baseClasses} ${textColorClass}`}>
@@ -306,7 +288,7 @@ const NavLink = ({ to, children, isScrolled }) => {
   );
 };
 
-// Mobile Nav Link Component
+// Mobile Nav Link
 const MobileNavLink = ({ to, onClick, children }) => {
   const location = useLocation();
   const isActive = location.pathname === to;
