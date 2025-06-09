@@ -24,12 +24,12 @@ const Header = () => {
     logout();
   };
 
-  // Close mobile menu when navigating
+  
   useEffect(() => {
     setMobileMenuOpen(false);
   }, [location.pathname]);
 
-  // Change header style on scroll
+ 
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > 50) {
@@ -55,7 +55,7 @@ const Header = () => {
 
   const toggleProfileMenu = () => {
     setProfileMenuOpen(!profileMenuOpen);
-    // Close mobile menu if open when profile menu is toggled
+    
     if (mobileMenuOpen) setMobileMenuOpen(false);
   };
 

@@ -49,7 +49,7 @@ const Home = () => {
     fetchBikes();
   }, []);
 
-  // Update the current image index based on scroll position
+ 
 
   useEffect(() => {
     const unsubscribe = scrollYProgress.onChange((value) => {
