@@ -176,11 +176,15 @@ router.post("/google-login", async (req, res) => {
       return res.json({
         message: "User verified",
         token: jwtToken,
+        user: {
+          name: existingUser.fullName,
+          email: existingUser.email,
+          profile: existingUser.profilePic,
+        },
       });
     }
 
     // If user doesn't exist, create a new user
-    // and send a verification email
 
     const user = await User.create({
       fullName: name,
@@ -195,6 +199,11 @@ router.post("/google-login", async (req, res) => {
     res.json({
       message: "User verified",
       token: jwtToken,
+      user: {
+        name: user.fullName,
+        email: user.email,
+        profile: user.profilePic,
+      },
     });
   } catch (error) {
     console.log(error);
