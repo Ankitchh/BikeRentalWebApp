@@ -20,7 +20,7 @@ export const AuthProvider = ({ children }) => {
 
   // Simulate authentication check on load
   useEffect(() => {
-    const storedUser = localStorage.getItem("ecoRideUser");
+    const storedUser = localStorage.getItem("user");
     if (storedUser) {
       setUser(JSON.parse(storedUser));
     }
@@ -30,20 +30,20 @@ export const AuthProvider = ({ children }) => {
   // Login function - typically would call an API
   const login = (data) => {
     setUser(data);
-    localStorage.setItem("ecoRideUser", JSON.stringify(data));
+    localStorage.setItem("user", JSON.stringify(data));
   };
 
   // Logout function
   const logout = () => {
     setUser(null);
-    localStorage.removeItem("ecoRideUser");
+    localStorage.removeItem("user");
   };
 
   // Update user information
   const updateUser = (updatedInfo) => {
     const updatedUser = { ...user, ...updatedInfo };
     setUser(updatedUser);
-    localStorage.setItem("ecoRideUser", JSON.stringify(updatedUser));
+    localStorage.setItem("user", JSON.stringify(updatedUser));
   };
 
   return (

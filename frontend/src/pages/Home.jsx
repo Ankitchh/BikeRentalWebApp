@@ -182,9 +182,15 @@ const Home = () => {
               </div>
             </div>
           </section>
-
-          {/* Other sections: How It Works, Features, BookingForm, Reviews, Comments, CTA */}
-          {/* ... (your original sections go here, unchanged) ... */}
+          <section>
+            <BookingForm />
+          </section>
+          <section>
+            <InfiniteReviews />
+          </section>
+          <section>
+            <CommentSection />
+          </section>
         </div>
       )}
 

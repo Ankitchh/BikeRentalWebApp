@@ -91,8 +91,8 @@ const Header = () => {
                       className="flex items-center focus:outline-none"
                     >
                       <img
-                        src={user.profilePic}
-                        alt={user.fullName}
+                        src={user.profile || user.profilePic}
+                        alt={user.fullName || user.name}
                         className="w-8 h-8 rounded-full object-cover border-2 border-primary-300"
                       />
                       <span
@@ -100,7 +100,7 @@ const Header = () => {
                           isScrolled ? "text-neutral-700" : "text-white"
                         }`}
                       >
-                        {user.fullName.split(" ")[0]}
+                        {user.fullName || user.name}
                       </span>
                     </button>
 
