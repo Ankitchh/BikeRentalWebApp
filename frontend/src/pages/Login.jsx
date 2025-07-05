@@ -3,12 +3,14 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { Slide, ToastContainer, toast } from "react-toastify";
 import LoadingSpinner from "../components/LoadingSpinner";
+import { useAuth } from "../context/AuthContext";
 
 function Login() {
   const [Email, setEmail] = useState("");
   const [FullName, setFullName] = useState("");
   const [IsLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
+  const { login } = useAuth();
 
   const data = { name: FullName, email: Email };
 
@@ -61,6 +63,9 @@ function Login() {
     })
       .then((res) => res.json())
       .then((data) => {
+        console.log(data.user_data);
+
+        login(data.user);
         const token = data.token;
         localStorage.setItem("token", token);
         console.log("Server Response: ", data);
