@@ -80,10 +80,9 @@ const Header = () => {
                 <NavLink to="/about" isScrolled={isScrolled}>
                   About Us
                 </NavLink>
-                <NavLink to="/accessories" isScrolled={isScrolled}>
-                  Accessories
+                <NavLink to="/booking" isScrolled={isScrolled}>
+                  Book Now
                 </NavLink>
-
                 {user ? (
                   <div className="relative">
                     <button

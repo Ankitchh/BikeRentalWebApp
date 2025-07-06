@@ -14,6 +14,7 @@ import InfiniteReviews from "../components/InfiniteReviews";
 import CommentSection from "../components/CommentSection";
 import axios from "axios";
 import LoadingSpinner from "../components/LoadingSpinner";
+import { Link } from "react-router-dom";
 import Chatbot from "../components/Chatbot";
 
 // Bike images
@@ -174,17 +175,17 @@ const Home = () => {
                         <p className="text-neutral-600 mb-4">
                           {bike.description}
                         </p>
-                        <button className="btn btn-outline w-full">
-                          Select Bike
-                        </button>
+                        <Link
+                          to={"/booking"}
+                          className="btn btn-outline w-full"
+                        >
+                          Book Now
+                        </Link>
                       </div>
                     </motion.div>
                   ))}
               </div>
             </div>
-          </section>
-          <section>
-            <BookingForm />
           </section>
           <section>
             <InfiniteReviews />
