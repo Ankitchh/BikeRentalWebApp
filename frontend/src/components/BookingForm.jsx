@@ -3,84 +3,85 @@ import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { useBooking } from "../context/BookingContext";
 import { useAuth } from "../context/AuthContext";
-import { Calendar, Clock, MapPin, Fuel, Plus } from "lucide-react";
+import { Bike, Calendar, MapPin, Plus } from "lucide-react";
 import Modal from "./Modal";
+import axios from "axios";
+import Accessories from "../pages/Accessories";
 
 const BookingForm = () => {
-  const {
-    booking,
-    updateBooking,
-    formStep,
-    setFormStep,
-    completeBooking,
-    calculateTotal,
-  } = useBooking();
+  const { booking, updateBooking, completeBooking, calculateTotal } =
+    useBooking();
   const { user } = useAuth();
   const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [bikes, setBikesData] = useState([]);
+  const [showAccessories, setshowAccessories] = useState(false);
+  const [accesoriesData, setAccessoriesData] = useState();
   const [errors, setErrors] = useState({});
   const navigate = useNavigate();
+  console.log(bikes);
 
   // Pre-fill form with user data if logged in
   React.useEffect(() => {
     if (user) {
-      updateBooking("fullName", user.fullName || "");
+      updateBooking("fullName", user.fullName || user.name || "");
       updateBooking("email", user.email || "");
       updateBooking("phone", user.phone || "");
       updateBooking("address", user.address || "");
     }
+    // eslint-disable-next-line
   }, [user]);
+
+  // fetching bike and accessories data
+
+  React.useEffect(() => {
+    const data = async () => {
+      const bike_res = await axios.get(
+        `${import.meta.env.VITE_BASE_URL}/data/bikes`
+      );
+      setBikesData(bike_res.data);
+
+      const accesories_res = await axios.get(
+        `${import.meta.env.VITE_BASE_URL}/data/accessories`
+      );
+      setAccessoriesData(accesories_res.data);
+    };
+
+    data();
+  }, []);
 
   // Form validation
   const validateForm = () => {
     const newErrors = {};
 
-    // Step 1 validation
-    if (formStep === 1) {
-      if (!booking.fullName) newErrors.fullName = "Full name is required";
-      if (!booking.email) {
-        newErrors.email = "Email is required";
-      } else if (!/\S+@\S+\.\S+/.test(booking.email)) {
-        newErrors.email = "Email is invalid";
-      }
-      if (!booking.phone) {
-        newErrors.phone = "Phone number is required";
-      } else if (!/^\+?[0-9\s\-()]{8,20}$/.test(booking.phone)) {
-        newErrors.phone = "Phone number is invalid";
-      }
-      if (!booking.address) newErrors.address = "Address is required";
+    if (!booking.fullName) newErrors.fullName = "Full name is required";
+    if (!booking.email) {
+      newErrors.email = "Email is required";
+    } else if (!/\S+@\S+\.\S+/.test(booking.email)) {
+      newErrors.email = "Email is invalid";
     }
+    if (!booking.phone) {
+      newErrors.phone = "Phone number is required";
+    } else if (!/^\+?[0-9\s\-()]{8,20}$/.test(booking.phone)) {
+      newErrors.phone = "Phone number is invalid";
+    }
+    if (!booking.address) newErrors.address = "Address is required";
 
-    // Step 2 validation
-    if (formStep === 2) {
-      if (!booking.startDate) newErrors.startDate = "Start date is required";
-      if (!booking.endDate) newErrors.endDate = "End date is required";
-      if (
-        booking.startDate &&
-        booking.endDate &&
-        new Date(booking.startDate) > new Date(booking.endDate)
-      ) {
-        newErrors.endDate = "End date must be after start date";
-      }
-      if (!booking.pickupLocation)
-        newErrors.pickupLocation = "Pickup location is required";
-      if (!booking.dropoffLocation)
-        newErrors.dropoffLocation = "Drop-off location is required";
+    if (!booking.startDate) newErrors.startDate = "Start date is required";
+    if (!booking.endDate) newErrors.endDate = "End date is required";
+    if (
+      booking.startDate &&
+      booking.endDate &&
+      new Date(booking.startDate) > new Date(booking.endDate)
+    ) {
+      newErrors.endDate = "End date must be after start date";
     }
+    if (!booking.pickupLocation)
+      newErrors.pickupLocation = "Pickup location is required";
+    if (!booking.dropoffLocation)
+      newErrors.dropoffLocation = "Drop-off location is required";
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
-  };
-
-  // Handle next step
-  const handleNextStep = () => {
-    if (validateForm()) {
-      setFormStep(formStep + 1);
-    }
-  };
-
-  // Handle previous step
-  const handlePrevStep = () => {
-    setFormStep(formStep - 1);
   };
 
   // Handle form submission
@@ -92,21 +93,18 @@ const BookingForm = () => {
     }
   };
 
-  // Navigate to accessories page
-  const goToAccessories = () => {
-    navigate("/accessories");
-  };
-
-  // Form content based on current step
-  const renderFormStep = () => {
-    switch (formStep) {
-      case 1:
-        return (
+  return (
+    <>
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+        className="bg-white rounded-2xl shadow-lg p-6 md:p-8 max-w-3xl mx-auto"
+      >
+        <h3 className="text-2xl font-semibold mb-6">Bike Rental Booking</h3>
+        <form onSubmit={handleSubmit} className="space-y-6">
+          {/* Personal Info */}
           <div className="space-y-4">
-            <h3 className="text-2xl font-semibold mb-6">
-              Personal Information
-            </h3>
-
             <div>
               <label htmlFor="fullName" className="label">
                 Full Name
@@ -123,7 +121,6 @@ const BookingForm = () => {
                 <p className="text-red-500 text-sm mt-1">{errors.fullName}</p>
               )}
             </div>
-
             <div>
               <label htmlFor="address" className="label">
                 Address
@@ -140,7 +137,6 @@ const BookingForm = () => {
                 <p className="text-red-500 text-sm mt-1">{errors.address}</p>
               )}
             </div>
-
             <div>
               <label htmlFor="email" className="label">
                 Email
@@ -157,7 +153,6 @@ const BookingForm = () => {
                 <p className="text-red-500 text-sm mt-1">{errors.email}</p>
               )}
             </div>
-
             <div>
               <label htmlFor="phone" className="label">
                 Phone Number
@@ -174,24 +169,10 @@ const BookingForm = () => {
                 <p className="text-red-500 text-sm mt-1">{errors.phone}</p>
               )}
             </div>
-
-            <div className="pt-4">
-              <button
-                type="button"
-                onClick={handleNextStep}
-                className="btn btn-primary w-full"
-              >
-                Continue to Booking Details
-              </button>
-            </div>
           </div>
-        );
 
-      case 2:
-        return (
+          {/* Booking Details */}
           <div className="space-y-4">
-            <h3 className="text-2xl font-semibold mb-6">Booking Details</h3>
-
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <label htmlFor="startDate" className="label">
@@ -215,7 +196,6 @@ const BookingForm = () => {
                   </p>
                 )}
               </div>
-
               <div>
                 <label htmlFor="endDate" className="label">
                   End Date
@@ -237,7 +217,36 @@ const BookingForm = () => {
                 )}
               </div>
             </div>
-
+            <div>
+              <label htmlFor="select_bike" className="label">
+                Select Bike
+              </label>
+              <div className="relative">
+                <select
+                  id="select_bike"
+                  className={`input pl-10 ${
+                    errors.selectedBike ? "border-red-500" : ""
+                  }`}
+                  value={booking.selectedBike}
+                  onChange={
+                    (e) => updateBooking("selectedBike", e.target.value) // Also fixed the case to match your state
+                  }
+                >
+                  <option value="">Select Your Bike</option>
+                  {bikes.map((bike) => (
+                    <option key={bike._id} value={bike._id}>
+                      {bike.bikeModel}
+                    </option>
+                  ))}
+                </select>
+                <Bike className="absolute left-3 top-1/2 transform -translate-y-1/2 text-neutral-500 w-5 h-5" />
+              </div>
+              {errors.selectedBike && (
+                <p className="text-red-500 text-sm mt-1">
+                  {errors.selectedBike}
+                </p>
+              )}
+            </div>
             <div>
               <label htmlFor="pickupLocation" className="label">
                 Pickup Location
@@ -267,7 +276,6 @@ const BookingForm = () => {
                 </p>
               )}
             </div>
-
             <div>
               <label htmlFor="dropoffLocation" className="label">
                 Drop-off Location
@@ -331,100 +339,32 @@ const BookingForm = () => {
                 </div>
               </div>
             </div>
-
             <div>
               <button
                 type="button"
-                onClick={goToAccessories}
+                onClick={() => {
+                  setshowAccessories((prev) => !prev);
+                }}
                 className="btn btn-outline flex items-center justify-center w-full"
               >
                 <Plus className="w-4 h-4 mr-2" />
                 Add Accessories
               </button>
             </div>
-
-            {booking.accessories.length > 0 && (
-              <div className="bg-neutral-50 p-4 rounded-lg">
-                <h4 className="font-medium mb-2">Selected Accessories:</h4>
-                <ul className="space-y-2">
-                  {booking.accessories.map((item) => (
-                    <li key={item.id} className="flex justify-between">
-                      <span>
-                        {item.name} x{item.quantity}
-                      </span>
-                      <span className="font-medium">
-                        ${(item.price * item.quantity).toFixed(2)}
-                      </span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
-
-            <div className="flex justify-between pt-4">
-              <button
-                type="button"
-                onClick={handlePrevStep}
-                className="btn btn-outline"
-              >
-                Back
-              </button>
-              <button type="submit" className="btn btn-primary">
-                Complete Booking
-              </button>
-            </div>
           </div>
-        );
-
-      default:
-        return null;
-    }
-  };
-
-  return (
-    <>
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-        className="bg-white rounded-2xl shadow-lg p-6 md:p-8 max-w-3xl mx-auto"
-      >
-        {/* Progress steps */}
-        <div className="flex mb-8">
-          <div className="flex-1">
-            <div
-              className={`w-8 h-8 mx-auto rounded-full flex items-center justify-center ${
-                formStep >= 1
-                  ? "bg-primary-500 text-white"
-                  : "bg-neutral-200 text-neutral-500"
-              }`}
-            >
-              1
+          {showAccessories ? (
+            <div>
+              <Accessories />
             </div>
-            <p className="text-sm text-center mt-2">Personal Info</p>
+          ) : (
+            ""
+          )}
+          <div className="pt-4">
+            <button type="submit" className="btn btn-primary w-full">
+              Complete Booking
+            </button>
           </div>
-          <div className="flex-1 relative">
-            <div className="absolute top-16 -left-full h-0.5 bg-neutral-200">
-              <div
-                className={`h-full bg-primary-500 transition-all duration-300 ${
-                  formStep >= 2 ? "w-full" : "w-0"
-                }`}
-              ></div>
-            </div>
-            <div
-              className={`w-8 h-8 mx-auto rounded-full flex items-center justify-center ${
-                formStep >= 2
-                  ? "bg-primary-500 text-white"
-                  : "bg-neutral-200 text-neutral-500"
-              }`}
-            >
-              2
-            </div>
-            <p className="text-sm text-center mt-2">Booking Details</p>
-          </div>
-        </div>
-
-        <form onSubmit={handleSubmit}>{renderFormStep()}</form>
+        </form>
       </motion.div>
 
       {/* Success Modal */}
