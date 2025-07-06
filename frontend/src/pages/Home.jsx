@@ -14,6 +14,7 @@ import InfiniteReviews from "../components/InfiniteReviews";
 import CommentSection from "../components/CommentSection";
 import axios from "axios";
 import LoadingSpinner from "../components/LoadingSpinner";
+import Chatbot from "../components/Chatbot";
 
 // Bike images
 const featureImage =
@@ -97,7 +98,7 @@ const Home = () => {
                 <div className="absolute inset-0 bg-black bg-opacity-40"></div>
               </motion.div>
             ))}
-
+            <Chatbot/>
             <div className="container mx-auto px-4 relative h-full flex flex-col justify-center items-center text-center text-white z-10">
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
