@@ -11,7 +11,7 @@ const accessoriesData = [
     name: "Helmet",
     price: 5,
     image:
-      "https://images.pexels.com/photos/5837013/pexels-photo-5837013.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+      "https://images.unsplash.com/photo-1571819507488-0e1dfe7cc22d?q=80&w=1074&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     description:
       "Safety first! Our comfortable helmets provide protection during your ride.",
   },
@@ -20,7 +20,7 @@ const accessoriesData = [
     name: "Bike Lock",
     price: 3,
     image:
-      "https://images.pexels.com/photos/5082593/pexels-photo-5082593.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+      "https://images.unsplash.com/photo-1664146158348-6a8c71ac62d1?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     description:
       "Secure your bike when you stop to explore with our heavy-duty locks.",
   },
@@ -29,7 +29,7 @@ const accessoriesData = [
     name: "Water Bottle",
     price: 2,
     image:
-      "https://images.pexels.com/photos/5749068/pexels-photo-5749068.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+      "https://images.unsplash.com/photo-1625708458528-802ec79b1ed8?q=80&w=880&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     description:
       "Stay hydrated on your journey with our 24oz reusable water bottle.",
   },
@@ -38,7 +38,7 @@ const accessoriesData = [
     name: "Phone Mount",
     price: 4,
     image:
-      "https://images.pexels.com/photos/1069798/pexels-photo-1069798.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+      "https://images.unsplash.com/photo-1622926491422-f5a3b10f87d4?q=80&w=735&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     description:
       "Keep your phone accessible for navigation and photos with our secure mount.",
   },

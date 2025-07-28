@@ -56,12 +56,13 @@ const About = () => {
               transition={{ duration: 0.5, delay: 0.2 }}
               className="text-xl mb-8"
             >
-              We're on a mission to transform urban mobility through bike rentals.
+              We're on a mission to transform urban mobility through bike
+              rentals.
             </motion.p>
           </div>
         </div>
       </section>
-      
+
       {/* Our Story Section */}
       <section className="py-20">
         <div className="container mx-auto px-4">
@@ -73,48 +74,67 @@ const About = () => {
               transition={{ duration: 0.8 }}
               className="lg:w-1/2"
             >
-              <img 
-                src="../src/assets/images/bike9.jpg" 
-                alt="Our Story" 
+              <img
+                src="https://images.unsplash.com/photo-1622185135825-d34b40aa03ef?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                alt="Our Story"
                 className="rounded-2xl shadow-xl w-full h-auto object-cover"
               />
             </motion.div>
-            
+
             <div className="lg:w-1/2">
               <h2 className="text-3xl md:text-4xl font-bold mb-6">Our Story</h2>
               <div className="space-y-4 text-neutral-700">
                 <p>
-                  BikeRental was founded in 2018 with a simple yet powerful vision: to make cities more livable by providing accessible, eco-friendly transportation options.
+                  BikeRental was founded in 2018 with a simple yet powerful
+                  vision: to make cities more livable by providing accessible,
+                  eco-friendly transportation options.
                 </p>
                 <p>
-                  What started as a small fleet of 20 bikes has grown into a city-wide network of premium rental stations, serving thousands of riders each month.
+                  What started as a small fleet of 20 bikes has grown into a
+                  city-wide network of premium rental stations, serving
+                  thousands of riders each month.
                 </p>
                 <p>
-                  Our founder's, B.C.A 2nd year Boys, began BikeRental after experiencing firsthand the freedom and joy of exploring cities by bike during her travels across Europe. She returned home determined to bring that same experience to her own city.
+                  Our founder's, B.C.A 2nd year Boys, began BikeRental after
+                  experiencing firsthand the freedom and joy of exploring cities
+                  by bike during her travels across Europe. She returned home
+                  determined to bring that same experience to her own city.
                 </p>
                 <p>
-                  Today, BikeRental stands at the forefront of urban mobility solutions, continually expanding our fleet and locations while maintaining our commitment to quality, sustainability, and exceptional customer experiences.
+                  Today, BikeRental stands at the forefront of urban mobility
+                  solutions, continually expanding our fleet and locations while
+                  maintaining our commitment to quality, sustainability, and
+                  exceptional customer experiences.
                 </p>
                 <p>
-                  Join us as we continue to innovate and enhance the biking experience for everyone.
+                  Join us as we continue to innovate and enhance the biking
+                  experience for everyone.
                 </p>
               </div>
-              
+
               <div className="mt-8 grid grid-cols-2 gap-4">
                 <div className="bg-primary-50 p-4 rounded-lg text-center">
-                  <span className="block text-3xl font-bold text-primary-600">5000+</span>
+                  <span className="block text-3xl font-bold text-primary-600">
+                    5000+
+                  </span>
                   <span className="text-neutral-600">Happy Customers</span>
                 </div>
                 <div className="bg-primary-50 p-4 rounded-lg text-center">
-                  <span className="block text-3xl font-bold text-primary-600">300+</span>
+                  <span className="block text-3xl font-bold text-primary-600">
+                    300+
+                  </span>
                   <span className="text-neutral-600">Premium Bikes</span>
                 </div>
                 <div className="bg-primary-50 p-4 rounded-lg text-center">
-                  <span className="block text-3xl font-bold text-primary-600">12</span>
+                  <span className="block text-3xl font-bold text-primary-600">
+                    12
+                  </span>
                   <span className="text-neutral-600">City Locations</span>
                 </div>
                 <div className="bg-primary-50 p-4 rounded-lg text-center">
-                  <span className="block text-3xl font-bold text-primary-600">24/7</span>
+                  <span className="block text-3xl font-bold text-primary-600">
+                    24/7
+                  </span>
                   <span className="text-neutral-600">Customer Support</span>
                 </div>
               </div>
@@ -122,49 +142,50 @@ const About = () => {
           </div>
         </div>
       </section>
-      
+
       {/* Our Values Section */}
       <section className="py-20 bg-neutral-50">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold mb-4">Our Values</h2>
             <p className="text-neutral-600 max-w-2xl mx-auto">
-              These core principles guide everything we do at EcoRide, from our business decisions to how we interact with our customers.
+              These core principles guide everything we do at EcoRide, from our
+              business decisions to how we interact with our customers.
             </p>
           </div>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <ValueCard 
+            <ValueCard
               icon={<Shield className="w-8 h-8 text-primary-600" />}
               title="Safety First"
               description="We prioritize the safety of our riders through well-maintained equipment, comprehensive safety briefings, and quality gear."
             />
-            
-            <ValueCard 
+
+            <ValueCard
               icon={<Heart className="w-8 h-8 text-primary-600" />}
               title="Customer Care"
               description="We're committed to creating exceptional experiences for every customer through personalized service and attention to detail."
             />
-            
-            <ValueCard 
+
+            <ValueCard
               icon={<Globe className="w-8 h-8 text-primary-600" />}
               title="Environmental Responsibility"
               description="We actively contribute to a cleaner environment by promoting cycling as a zero-emission alternative to car travel."
             />
-            
-            <ValueCard 
+
+            <ValueCard
               icon={<Users className="w-8 h-8 text-primary-600" />}
               title="Community Engagement"
               description="We believe in giving back to the communities we serve through local partnerships and initiatives."
             />
-            
-            <ValueCard 
+
+            <ValueCard
               icon={<Award className="w-8 h-8 text-primary-600" />}
               title="Quality Without Compromise"
               description="We offer only the highest quality bikes and equipment, ensuring a premium experience for every rider."
             />
-            
-            <ValueCard 
+
+            <ValueCard
               icon={<Zap className="w-8 h-8 text-primary-600" />}
               title="Innovation"
               description="We continuously look for ways to improve our service through technology and creative solutions."
@@ -172,17 +193,20 @@ const About = () => {
           </div>
         </div>
       </section>
-      
+
       {/* Our Team Section */}
       <section className="py-20">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">Meet Our Team</h2>
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">
+              Meet Our Team
+            </h2>
             <p className="text-neutral-600 max-w-2xl mx-auto">
-              The passionate individuals behind EcoRide who work tirelessly to provide you with the best biking experience.
+              The passionate individuals behind EcoRide who work tirelessly to
+              provide you with the best biking experience.
             </p>
           </div>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {teamMembers.map((member, index) => (
               <motion.div
@@ -194,14 +218,16 @@ const About = () => {
                 whileHover={{ y: -10 }}
                 className="bg-white rounded-xl shadow-md overflow-hidden"
               >
-                <img 
-                  src={member.image} 
+                <img
+                  src={member.image}
                   alt={member.name}
-                  className="w-full h-64 object-cover" 
+                  className="w-full h-64 object-cover"
                 />
                 <div className="p-6">
                   <h3 className="text-xl font-semibold mb-1">{member.name}</h3>
-                  <p className="text-primary-600 font-medium mb-3">{member.role}</p>
+                  <p className="text-primary-600 font-medium mb-3">
+                    {member.role}
+                  </p>
                   <p className="text-neutral-600">{member.bio}</p>
                 </div>
               </motion.div>
@@ -209,18 +235,21 @@ const About = () => {
           </div>
         </div>
       </section>
-      
+
       {/* Testimonials Section */}
       <section className="py-20 bg-neutral-50">
         <InfiniteReviews />
       </section>
-      
+
       {/* CTA Section */}
       <section className="py-20 bg-primary-600 text-white">
         <div className="container mx-auto px-4 text-center">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">Join the EcoRide Movement</h2>
+          <h2 className="text-3xl md:text-4xl font-bold mb-4">
+            Join the EcoRide Movement
+          </h2>
           <p className="text-xl max-w-2xl mx-auto mb-8">
-            Experience the joy of exploration on two wheels while contributing to a greener planet.
+            Experience the joy of exploration on two wheels while contributing
+            to a greener planet.
           </p>
           <motion.button
             whileHover={{ scale: 1.05 }}
